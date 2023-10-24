@@ -10,7 +10,7 @@ return new class extends Migration {
         Schema::create('reflection_trajectories', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->nullable(true);
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users');
         });
