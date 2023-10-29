@@ -10,4 +10,8 @@ class question extends Model
         'title',
         'type',
     ];
+    public function question_options()
+    {
+        $this->hasMany(question_option::class);
+    }
 }
