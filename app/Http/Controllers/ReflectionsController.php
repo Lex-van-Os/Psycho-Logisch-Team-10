@@ -9,7 +9,7 @@ class ReflectionsController extends Controller
 {
     public function showAll()
     {
-        return view('welcome', ['ref_trajs' => reflection_trajectory::all()->get()]);
+        return view('welcome', ['ref_trajs' => reflection_trajectory::all()]);
     }
     public function index($id)
     {
