@@ -5,8 +5,7 @@
     @vite('resources/css/app.css')
 </head>
 <body>
-<div class="relative h-32 w-32 bg-purple-950">
-    <div class="absolute inset-x-0 top-0 h-16">02</div>
+<div class="relative h-14 w-full dark:bg-gray-900 bg-gray-100">
 </div>
 {{$slot}}
 </body>
