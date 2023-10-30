@@ -64,3 +64,39 @@ The following command runs the project application builder; Vite:
 ```bash
 npm run dev
 ```
+
+## Development guide
+To ensure that developers follow the same development guidelines, a development guide has been defined.
+
+### Front-end
+
+#### Styling
+Styling is done through the use of Tailwind
+
+*Syntax example:*
+```html
+{{-- Tailwind styling example --}}
+<div class="flex items-center justify-center space-x-10">
+    <svg viewBox="0 0 62 65" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-16 w-auto bg-gray-100 dark:bg-gray-900">
+    </svg>
+
+    <h1 class="text-3xl text-center text-white font-bold underline">
+        Hello world!
+    </h1>
+</div>
+```
+
+
+#### Referencing files
+The referencing of files is done through Vite syntax instead of the usual script syntax. This is because Vite is used to serve as a build tool for making use of external npm packages
+
+*Syntax example:*
+```html
+<head>
+    @vite('resources/css/app.css')
+    @vite('resources/js/authors/author.js')
+    @vite('resources/js/shared/regexHelper.js')
+</head>
+```
+
+### Back-end
