@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\AnswerController;
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\HelperController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +19,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+// Question routes
+
+// Answer routes
+Route::get('answer/get', [AnswerController::class, 'get'])->name('answer.get');
+Route::post('answer/store', [AnswerController::class, 'store'])->name('answer.store');
+Route::put('answer/update', [AnswerController::class, 'update'])->name('answer.update');
+
+Route::get('/getCsrfToken', [HelperController::class, 'getCsrfToken'])->name('getCsrfToken');
