@@ -13,4 +13,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [\App\Http\Controllers\ReflectionsController::class, 'showAll']);
+Route::get('/', [\App\Http\Controllers\ReflectionsTrajectoryController::class, 'showAll']);
+Route::post('/NewReflectionTrajectory', [\App\Http\Controllers\ReflectionsTrajectoryController::class, 'store']);
