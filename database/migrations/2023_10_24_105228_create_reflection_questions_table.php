@@ -12,7 +12,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('question_id');
             $table->foreign('question_id')->references('id')->on('questions');
             $table->unsignedBigInteger('reflection_id');
-            $table->foreign('question_id')->references('id')->on('reflections');
+            $table->foreign('reflection_id')->references('id')->on('reflections');
             $table->timestamps();
         });
     }
