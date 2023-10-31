@@ -6,4 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class open_answer extends Model
 {
+    protected $fillable = [
+        'value',
+        'question_id',
+    ];
 }
