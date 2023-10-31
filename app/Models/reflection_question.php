@@ -6,4 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class reflection_question extends Model
 {
+    protected $fillable = [
+        'question_id',
+        'reflection_id',
+    ];
 }
