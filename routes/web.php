@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\HelperController;
 use App\Http\Controllers\OpenAnswerController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ReflectionsTrajectoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,3 +44,8 @@ Route::post('closedAnswer/store', [ClosedAnswerController::class, 'store'])->nam
 
 // Misc
 Route::get('/getCsrfToken', [HelperController::class, 'getCsrfToken'])->name('getCsrfToken');
+
+Route::get('/', [ReflectionsTrajectoryController::class, 'showAll']);
+Route::post('/NewReflectionTrajectory', [ReflectionsTrajectoryController::class, 'store']);
+Route::get('/reflectionTrajectory/{$id}', [ReflectionsTrajectoryController::class, 'index']);
+Route::get('/reflectionTrajectory/{$id}/{$type}',[]);
