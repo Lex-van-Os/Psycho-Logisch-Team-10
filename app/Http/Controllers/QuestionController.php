@@ -8,13 +8,13 @@ use Illuminate\Http\Request;
 
 class QuestionController extends Controller
 {
-
-    public function getQuestionOptions($questionId)
+    // Method for retrieving all question options for a multiple choice question
+    public function retrieveQuestionOptions($questionId)
     {
         // Retrieve all question options linked to the specified questionId
         $questionOptions = question_option::where('question_id', $questionId)->get();
     
-        return response()->json(['questionOptions' => $questionOptions]);
+        return $questionOptions;
     }
     //
 }

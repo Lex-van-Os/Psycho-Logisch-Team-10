@@ -7,6 +7,7 @@ use App\Models\closed_answer;
 use App\Models\open_answer;
 use App\Models\question_option;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -22,13 +23,7 @@ class AnswerController extends Controller
         return view("");
     }
 
-    // Read CRUD method
-    public function get() 
-    {
-        return csrf_token(); 
-    }
-
-    // Create CRUD method
+    // Method for storing either an open or closed answer, based on given type
     public function store(Request $request) 
     {
         try 
@@ -42,22 +37,30 @@ class AnswerController extends Controller
             Log::info("Storing question answer");
     
             $result = null;
-            $answerType = $request->input("type");
+            $questionType = $request->input("type");
             $answer = $request->input("answer");
             $questionId = $request->input("question_id");
     
-            if ($answerType == "Open") 
+            if ($questionType == "open_question" || $questionType == "scale_question") 
             {
                 $result = $this->createOpenAnswer($questionId, $answer);
             }
-            else if ($answerType == "Closed") 
+            else if ($questionType == "multiple_choice_question") 
             {
                 $questionController = new QuestionController();
     
-                $questionOptions = $questionController->getQuestionOptions($questionId);
-                $questionOptionId = $this->getQuestionOptionByValue($questionOptions, $answer);
+                $questionOptions = $questionController->retrieveQuestionOptions($questionId);
+                $questionOptionId = $this->getQuestionOptionByTextValue($questionOptions, $answer);
     
-                $result = $this->createClosedAnswer($questionId, $questionOptionId);
+                Log::info("Storing closed answer");
+                if (isset($questionOptionId)) 
+                {
+                    $result = $this->createClosedAnswer($questionId, $questionOptionId);
+                }
+                else
+                {
+                    return response()->json(['error' => 'Could not find corresponding question option'], 422); 
+                }
             }
     
             Log::info("Foo");
@@ -73,53 +76,13 @@ class AnswerController extends Controller
         }
     }
 
-    // Update CRUD method
-    public function update(Request $request) 
+    // Method for finding the given multiple choice question option by checking corresponding value
+    public function getQuestionOptionByTextValue($questionOptions, $value)
     {
-        $request->validate([
-            "question_id" => "required",
-            "answer" => "required",
-            "type" => "required"
-        ]);
-
-        Log::info("Updating question answer");
-
-        $result = null;
-        $answerType = $request->input("type");
-        $answer = $request->input("answer");
-        $questionId = $request->input("question_id");
-
-        if ($answerType == "Open") 
-        {
-            $result = $this->createOpenAnswer($questionId, $answer);
-        }
-        else if ($answerType == "Closed") 
-        {
-            $questionController = new QuestionController();
-
-            $questionOptions = $questionController->getQuestionOptions($questionId);
-            $questionOptionId = $this->getQuestionOptionByValue($questionOptions, $answer);
-
-            $result = $this->createClosedAnswer($questionId, $questionOptionId);
-        }
-
-
-        Log::info("Foo");
-
-        return response()->json($result);
-    }
-
-    // Delete CRUD method
-    public function destroy() 
-    {
-
-    }
-
-    public function getQuestionOptionByValue($questionOptions, $value)
-    {
+        Log::info($questionOptions);
         foreach ($questionOptions as $option)
         {
-            if ($option->value == $value)
+            if (intval($option->text) == intval($value))
             {
                 return $option->id;
             }
@@ -128,8 +91,12 @@ class AnswerController extends Controller
         return null;
     }
 
+    // Method for creating a closed answer
     public function createClosedAnswer($questionId, $questionOptionsId) 
     {
+        Log::info($questionId);
+        Log::info($questionOptionsId);
+
         $closedAnswer = closed_answer::create([
             "question_id" => $questionId,
             "question_option_id" => $questionOptionsId
@@ -138,13 +105,14 @@ class AnswerController extends Controller
         return $closedAnswer;
     }
 
+    // Method for creating an open answer
     public function createOpenAnswer($questionId, $value)
     {
-        $closedAnswer = open_answer::create([
+        $openAnswer = open_answer::create([
             "question_id" => $questionId,
-            "value" => "1"
+            "value" => $value
         ]);
 
-        return $closedAnswer;
+        return $openAnswer;
     }
 }
