@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ReflectionsTrajectoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,5 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [\App\Http\Controllers\ReflectionsTrajectoryController::class, 'showAll']);
-Route::post('/NewReflectionTrajectory', [\App\Http\Controllers\ReflectionsTrajectoryController::class, 'store']);
+Route::get('/', [ReflectionsTrajectoryController::class, 'showAll']);
+Route::post('/NewReflectionTrajectory', [ReflectionsTrajectoryController::class, 'store']);
+Route::get('/reflectionTrajectory/{$id}', [ReflectionsTrajectoryController::class, 'index']);
+Route::get('/reflectionTrajectory/{$id}/{$type}',[]);

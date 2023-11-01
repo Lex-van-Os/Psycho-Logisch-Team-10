@@ -22,6 +22,6 @@ class ReflectionsTrajectoryController extends Controller
     public function index($id)
     {
         $ref = reflection_trajectory::findOrFail($id);
-        return view('Reflection', ['ref_subject' => $ref->title]);
+        return view('Reflection', ['ref_subject' => $ref->title, 'ref'=>$ref]);
     }
 }
