@@ -19,9 +19,9 @@ class ReflectionsTrajectoryController extends Controller
         return response()->json(['reflection_trajectory'=>$refTraj]);
     }
 
-    public function index($id)
+    //Method to retrieve a reflection trajectory
+    public function retrieveReflectionTrajectory($id)
     {
-        $ref = reflection_trajectory::findOrFail($id);
-        return view('Reflection', ['ref_subject' => $ref->title, 'ref'=>$ref]);
+        return reflection_trajectory::findOrFail($id);
     }
 }

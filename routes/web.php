@@ -7,6 +7,7 @@ use App\Http\Controllers\HelperController;
 use App\Http\Controllers\OpenAnswerController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReflectionsTrajectoryController;
+use \App\Http\Controllers\QuestionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,11 +20,8 @@ use App\Http\Controllers\ReflectionsTrajectoryController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 // Question routes
+Route::get('question/get/{$id}', [QuestionController::class, 'retrieveQuestion']);
 
 // Answer routes
 Route::get('answer/get', [AnswerController::class, 'get'])->name('answer.get');
@@ -47,5 +45,5 @@ Route::get('/getCsrfToken', [HelperController::class, 'getCsrfToken'])->name('ge
 
 Route::get('/', [ReflectionsTrajectoryController::class, 'showAll']);
 Route::post('/NewReflectionTrajectory', [ReflectionsTrajectoryController::class, 'store']);
-Route::get('/reflectionTrajectory/{$id}', [ReflectionsTrajectoryController::class, 'index']);
+Route::get('/reflectionTrajectory/{$id}', [ReflectionsTrajectoryController::class, 'retrieveReflectionTrajectory']);
 Route::get('/reflectionTrajectory/{$id}/{$type}',[]);

@@ -4,32 +4,90 @@
     </x-slot:title>
     @if(isset($ref_trajs))
         @foreach($ref_trajs as $ref)
-            <button class="rounded-2xl border-2 p-1.5 hover:bg-gray-300 cursor-pointer">{{$ref.title}}</button>
+            <x-card title="{{$ref->title}}">
+            </x-card>
         @endforeach
     @endif
-
-    <button class="rounded-2xl border-2 p-1.5 hover:bg-gray-300 cursor-pointer" >+</button>
-    <div class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
-
-        <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
-            <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-                <div class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-                    <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
-
-                        <div class="sm:flex sm:items-start">
-                            <form>
-                                
-                            </form>
-                        </div>
-
+    <button onclick="openModal()">
+        <h1
+            class="focus:outline-none px-4 bg-gray-900 p-3 ml-3 rounded-lg text-white hover:bg-gray-800 text-primary-500  mb-8 text-4xl font-extrabold tracking-tight lg:text-4xlxl dark:text-white text-gray-900"
+        >
+            +
+        </h1>
+    </button>
+    <div class="main-modal fixed w-full h-100 inset-0 z-50 overflow-hidden flex justify-center items-center animated fadeIn faster"
+         style="background: rgba(0,0,0,.7);">
+        <div
+            class="border border-teal-500 shadow-lg modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+            <div class="modal-content py-4 text-left px-6">
+                <!--Title-->
+                <div class="flex justify-between items-center pb-3">
+                    <p class="text-2xl font-bold">Nieuwe reflectie</p>
+                    <div class="modal-close cursor-pointer z-50">
+                        <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                             viewBox="0 0 18 18">
+                            <path
+                                d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
+                            </path>
+                        </svg>
                     </div>
-                    <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                        <button type="button" class="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 sm:ml-3 sm:w-auto">Create</button>
-                        <button type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">Cancel</button>
-                    </div>
+                </div>
+                <!--Body-->
+                <form action="/NewReflectionTrajectory" method="post">
+                    <label
+                        for="title"
+                        class="mb-3 block text-base font-medium text-2xl"
+                    >
+                        title
+                    </label>
+                    <input
+                        type="text"
+                        name="title"
+                        id="title"
+                        placeholder="title"
+                        class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                    />
+                </form>
+                <!--Footer-->
+                <div class="flex justify-end pt-2">
+                    <button
+                        class="focus:outline-none modal-close px-4 bg-gray-400 p-3 rounded-lg text-black hover:bg-gray-300">Cancel</button>
+                    <button
+                        class="focus:outline-none px-4 bg-teal-500 p-3 ml-3 rounded-lg text-white hover:bg-teal-400">Confirm</button>
                 </div>
             </div>
         </div>
     </div>
 </x-layout>
+
+<script>
+    const modal = document.querySelector('.main-modal');
+    const closeButton = document.querySelectorAll('.modal-close');
+
+    const modalClose = () => {
+        modal.classList.remove('fadeIn');
+        modal.classList.add('fadeOut');
+        setTimeout(() => {
+            modal.style.display = 'none';
+        }, 500);
+    }
+
+    const openModal = () => {
+        modal.classList.remove('fadeOut');
+        modal.classList.add('fadeIn');
+        modal.style.display = 'flex';
+    }
+
+    for (let i = 0; i < closeButton.length; i++) {
+
+        const elements = closeButton[i];
+
+        elements.onclick = (e) => modalClose();
+
+        modal.style.display = 'none';
+
+        window.onclick = function (event) {
+            if (event.target == modal) modalClose();
+        }
+    }
+</script>
