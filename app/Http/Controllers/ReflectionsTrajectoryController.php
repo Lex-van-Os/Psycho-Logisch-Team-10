@@ -13,15 +13,26 @@ class ReflectionsTrajectoryController extends Controller
         return view('welcome', ['ref_trajs' => reflection_trajectory::all()]);
     }
 
+    public function showTrajectory($id)
+    {
+        return view('Reflection', ['ref'=>reflection_trajectory::where(['id' => $id])->get()]);
+    }
+
+    public function retrieveAll()
+    {
+        return reflection_trajectory::all();
+    }
+
     public function store(Request $request)
     {
-        $refTraj = reflection_trajectory::create(['title' => $request->title, 'user_id' => \Auth::id()]);
-        return response()->json(['reflection_trajectory'=>$refTraj]);
+        reflection_trajectory::create(['title' => $request->title, 'user_id' => '1']);
+        return redirect('/');
     }
 
     //Method to retrieve a reflection trajectory
     public function retrieveReflectionTrajectory($id)
     {
-        return reflection_trajectory::findOrFail($id);
+
+        return reflection_trajectory::where(['id' => $id])->get();
     }
 }

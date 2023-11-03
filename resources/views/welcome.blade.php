@@ -4,7 +4,7 @@
     </x-slot:title>
     @if(isset($ref_trajs))
         @foreach($ref_trajs as $ref)
-            <x-card title="{{$ref->title}}">
+            <x-card href="/reflectionTrajectory/{{$ref->id}}" title="{{$ref->title}}">
             </x-card>
         @endforeach
     @endif
@@ -33,7 +33,8 @@
                     </div>
                 </div>
                 <!--Body-->
-                <form action="/NewReflectionTrajectory" method="post">
+                <form action="/NewReflectionTrajectory" method="POST">
+                    @csrf
                     <label
                         for="title"
                         class="mb-3 block text-base font-medium text-2xl"
@@ -47,14 +48,16 @@
                         placeholder="title"
                         class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                     />
+                    <div class="flex justify-end pt-2">
+                        <button
+                            class="focus:outline-none modal-close px-4 bg-gray-400 p-3 rounded-lg text-black hover:bg-gray-300">Cancel</button>
+                        <input type="submit"
+                            class="focus:outline-none px-4 bg-teal-500 p-3 ml-3 rounded-lg text-white hover:bg-teal-400">
+                    </div>
                 </form>
+
                 <!--Footer-->
-                <div class="flex justify-end pt-2">
-                    <button
-                        class="focus:outline-none modal-close px-4 bg-gray-400 p-3 rounded-lg text-black hover:bg-gray-300">Cancel</button>
-                    <button
-                        class="focus:outline-none px-4 bg-teal-500 p-3 ml-3 rounded-lg text-white hover:bg-teal-400">Confirm</button>
-                </div>
+
             </div>
         </div>
     </div>
