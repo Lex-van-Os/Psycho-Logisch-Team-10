@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\ClosedAnswerController;
-use App\Http\Controllers\Controller;
 use App\Http\Controllers\HelperController;
 use App\Http\Controllers\OpenAnswerController;
 use Illuminate\Support\Facades\Route;

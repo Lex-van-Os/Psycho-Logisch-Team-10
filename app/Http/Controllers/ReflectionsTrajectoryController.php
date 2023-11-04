@@ -15,7 +15,7 @@ class ReflectionsTrajectoryController extends Controller
 
     public function showTrajectory($id)
     {
-        return view('Reflection', ['ref'=>reflection_trajectory::where(['id' => $id])->get()]);
+        return view('Reflection', ['ref'=>reflection_trajectory::findOrFail($id)]);
     }
 
     public function retrieveAll()
