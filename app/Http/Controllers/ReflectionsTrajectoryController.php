@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 use App\Models\Reflection;
 use App\Models\reflection_trajectory;
 use Illuminate\Http\Request;
-use function Termwind\render;
 
 class ReflectionsTrajectoryController extends Controller
 {
@@ -25,7 +24,10 @@ class ReflectionsTrajectoryController extends Controller
 
     public function store(Request $request)
     {
-        reflection_trajectory::create(['title' => $request->title, 'user_id' => '1']);
+        $ref_trad = reflection_trajectory::create(['title' => $request->title, 'user_id' => '1']);
+        Reflection::create(['reflection_trajectory_id' => $ref_trad->id, 'reflection_type' => 'past']);
+        Reflection::create(['reflection_trajectory_id' => $ref_trad->id, 'reflection_type' => 'present']);
+        Reflection::create(['reflection_trajectory_id' => $ref_trad->id, 'reflection_type' => 'future']);
         return redirect('/');
     }
 
