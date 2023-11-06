@@ -12,6 +12,9 @@ class ReflectionsController extends Controller
 
     public function AnswerQuestion()
     {
+        //Check answer type
+        //Store answer with correct type
+        //Update ReflectionProgress
 
     }
 
