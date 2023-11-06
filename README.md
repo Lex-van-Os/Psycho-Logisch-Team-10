@@ -22,7 +22,7 @@ Making use of a database, has the following prerequisites:
 - node.js installed
 
 #### Database configuration
-To set-up the database configuration, you should make use of the provided `.env` file and paste it in the project, under the same directory as the `.env.example` file. This `.env` file serves as the necessary configuration for the use of the hosted database server.
+To set-up the database configuration, you should make use of the provided `.env` file and paste it in the project (can be found in Discord), under the same directory as the `.env.example` file. This `.env` file serves as the necessary configuration for the use of the hosted database server.
 
 ### Installing Laravel packages
 After having done the correct configuration, you should install the necessary project libraries using the command:
@@ -104,7 +104,11 @@ The referencing of files is done through Vite syntax instead of the usual script
 ```
 
 ### Back-end
----
+
+#### Question table
+
+**Checking question types**
+When checking if you should store an open or a closed question, you should do a check on the 'type' property of the Questions table. The 'type' property can have the following values: `open_question`, `scale_question` or `multiple_choice_question` 
 
 #### Using Postman
 Using Postman for testing / using requests can serve as an useful tool to work with data, without having to use the application front-end. There are several things to keep in mind when using Postman
