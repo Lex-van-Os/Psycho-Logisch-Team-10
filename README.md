@@ -7,6 +7,9 @@ Team:
 - Joshua
 - Hamid
 
+## Project ERD
+
+
 
 ## Installation
 
@@ -69,6 +72,7 @@ npm run dev
 To ensure that developers follow the same development guidelines, a development guide has been defined.
 
 ### Front-end
+---
 
 #### Styling
 Styling is done through the use of Tailwind
@@ -105,3 +109,23 @@ The referencing of files is done through Vite syntax instead of the usual script
 
 **Checking question types**
 When checking if you should store an open or a closed question, you should do a check on the 'type' property of the Questions table. The 'type' property can have the following values: `open_question`, `scale_question` or `multiple_choice_question` 
+
+#### Using Postman
+Using Postman for testing / using requests can serve as an useful tool to work with data, without having to use the application front-end. There are several things to keep in mind when using Postman
+
+##### Using CSRF token
+When calling web requests using Postman, it is necessary to add a CSRF token in the request headers when making a request.
+
+*Retrieving*
+
+The retrieval of a CSRF token can be done by calling the following request in Postman (can be found under the `misc` collection):
+```markdown
+http://127.0.0.1:8000/getCsrfToken
+```
+
+*Using*
+
+When making a web call, add a new key under the 'Headers' section of your Postman request named `X-CSRF-TOKEN`, with the retrieved value as the input for the value field. Done correctly, this should look something like this:
+```markdown
+Key: X-CSRF-TOKEN | Value: lSjtNOpfyE8lSGrQQVyy3PbDYkUOhOSFlj14y4Mm
+```
