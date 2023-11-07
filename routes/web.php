@@ -45,6 +45,9 @@ Route::get('/getCsrfToken', [HelperController::class, 'getCsrfToken'])->name('ge
 Route::get('/', [ReflectionsTrajectoryController::class, 'showAll']);
 Route::post('/NewReflectionTrajectory', [ReflectionsTrajectoryController::class, 'store']);
 Route::get('/retrieveReflectionTrajectory/{id}', [ReflectionsTrajectoryController::class, 'retrieveReflectionTrajectory']);
-Route::get('/reflectionTrajectory/{id}/{type}',[]);
+Route::get('/reflection/{id}',[]);
+Route::get('/reflectionTrajectory/{id}/{type}', [\App\Http\Controllers\ReflectionsController::class, 'indexFromReflectiontrajectory']);
 Route::get('/reflectionTrajectory/{id}',[ReflectionsTrajectoryController::class,'showTrajectory']);
 Route::get('/retrieveAllReflectionTrajectories', [ReflectionsTrajectoryController::class, 'retrieveAll']);
+
+Route::get('/testRefUpdate/{id}', [\App\Http\Controllers\ReflectionsController::class, 'AnswerQuestion']);
