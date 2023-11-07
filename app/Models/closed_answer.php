@@ -10,4 +10,9 @@ class closed_answer extends Model
         'question_id',
         'question_option_id',
     ];
+
+    public function question_option()
+    {
+        return $this->belongsTo(question_option::class, 'question_option_id');
+    }
 }
