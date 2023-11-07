@@ -10,17 +10,21 @@ use App\Models\reflection_question;
 class ReflectionsController extends Controller
 {
 
-    public function AnswerQuestion()
+    public function AnswerQuestion($reflection_id)
     {
         //Check answer type
         //Store answer with correct type
         //Update ReflectionProgress
-
+        $ref = reflection_progression::find($reflection_id);
+        $ref->progress += 1;
+        $ref->save();
+        return $ref;
     }
 
-    public function show()
+    public function getQuestionByIndex($type,$questionIndex)
     {
-        return view('reflectionQuestions');
+        $questions = question::where('ref_type','=',$type)->get();
+        return $questions[$questionIndex];
     }
 
     /*Check type of reflection and get it
@@ -32,12 +36,17 @@ class ReflectionsController extends Controller
     {
         switch ($type){
             case 'past':
-                $ref_id=Reflection::where([['reflection_trajectory_id','=',$id], ['reflection_type','=','past']])->id;
-                if(reflection_question::where('reflection_id','=',$ref_id)->count() == 0)
+                $ref=Reflection::where([['reflection_trajectory_id','=',$id], ['reflection_type','=','past']])->first();
+                if(reflection_question::where('reflection_id','=',$ref->id)->count() == 0)
                 {
-                    $this->StartPastReflection($ref_id);
+                    $this->StartPastReflection($ref->id);
                 }else{
-
+                    $question = $this->getQuestionByIndex('past',$ref->reflection_progression()->first()->progress);
+                    if($question->type=='multiple_choice_question')
+                    {
+                        $questionOptions = $question->question_options()->get();
+                        return view('reflectionQuestions', ['question'=>$question, 'questionOptions'=>$questionOptions]);
+                    }else return view('reflectionQuestions', ['question'=>$question]);
                 }
                 break;
             case 'present':
@@ -59,7 +68,7 @@ class ReflectionsController extends Controller
            'reflection_id' => $id,
            'question_id' => '2',
         ]);
-        reflection_progression::create(['reflection_id' => $id, 'progress' => 1]);
+        reflection_progression::create(['reflection_id' => $id, 'progress' => 0]);
     }
 
 }

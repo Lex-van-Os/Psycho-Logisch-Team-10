@@ -13,8 +13,15 @@ class question extends Model
     ];
     public function question_options()
     {
-        $this->hasMany(question_option::class);
-        $this->hasMany(closed_answer::class);
-        $this->hasMany(open_answer::class);
+        return $this->hasMany(question_option::class);
+    }
+    public function question_closed_answers()
+    {
+        return $this->hasMany(closed_answer::class);
+    }
+
+    public function question_open_answers()
+    {
+        return $this->hasMany(open_answer::class);
     }
 }
