@@ -8,6 +8,7 @@ class question_option extends Model
 {
     protected $fillable = [
         'value',
+        'text',
         'question_id',
     ];
 }
