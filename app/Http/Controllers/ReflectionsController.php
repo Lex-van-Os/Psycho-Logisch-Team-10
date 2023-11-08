@@ -45,8 +45,8 @@ class ReflectionsController extends Controller
                     if($question->type=='multiple_choice_question')
                     {
                         $questionOptions = $question->question_options()->get();
-                        return view('reflectionQuestions', ['question'=>$question, 'questionOptions'=>$questionOptions]);
-                    }else return view('reflectionQuestions', ['question'=>$question]);
+                        return view('reflectionQuestions', ['question'=>$question, 'questionOptions'=>$questionOptions, 'ref_id' => $ref->id]);
+                    }else return view('reflectionQuestions', ['question'=>$question, 'ref_id' => $ref->id]);
                 }
                 break;
             case 'present':
