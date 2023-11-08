@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\closed_answer;
+use App\Models\open_answer;
 use App\Models\question;
 use App\Models\Reflection;
 use App\Models\reflection_progression;
@@ -12,6 +13,26 @@ use Illuminate\Http\Request;
 
 class ReflectionsController extends Controller
 {
+
+    public function AnswerOpenQuestion(Request $request)
+    {
+        $reflection_id = $request->reflection_id;
+        $question_id = $request->question_id;
+        $answer = $request->answer;
+        open_answer::create([
+            'value' => $answer,
+            'question_id' => $question_id,
+            'reflection_id'=>$reflection_id
+        ]);
+        $ref = reflection_progression::where('reflection_id', '=', $reflection_id)->first();
+        $ref->progress += 1;
+        $ref->save();
+
+        //redirect back to questions
+        $reflection=Reflection::find($reflection_id);
+        $ref_traj_id = reflection_trajectory::find($reflection->reflection_trajectory_id)->id;
+        return redirect('/reflectionTrajectory/'.$ref_traj_id.'/'.$reflection->reflection_type);
+    }
 
     public function AnswerMultiQuestion(Request $request)
     {
@@ -23,12 +44,14 @@ class ReflectionsController extends Controller
             'question_option_id' => $answer_id,
             'reflection_id'=>$reflection_id
         ]);
-        $ref = reflection_progression::find($reflection_id);
+        $ref = reflection_progression::where('reflection_id', '=', $reflection_id)->first();
         $ref->progress += 1;
         $ref->save();
 
+        //redirect back to questions
         $reflection=Reflection::find($reflection_id);
         $ref_traj_id = reflection_trajectory::find($reflection->reflection_trajectory_id)->id;
+        return redirect('/reflectionTrajectory/'.$ref_traj_id.'/'.$reflection->reflection_type);
     }
 
     public function getQuestionByIndex($type,$questionIndex)
@@ -84,6 +107,12 @@ class ReflectionsController extends Controller
            'question_id' => '2',
         ]);
         reflection_progression::create(['reflection_id' => $id, 'progress' => 0]);
+        $qi=$this->getQuestionByIndex('past', 0);
+        if($qi->type=='multiple_choice_question')
+        {
+            $questionOptions = $qi->question_options()->get();
+            return view('reflectionQuestions', ['question'=>$qi, 'questionOptions'=>$questionOptions, 'ref_id' => $id]);
+        }else return view('reflectionQuestions', ['question'=>$qi, 'ref_id' => $id]);
     }
 
 }
