@@ -49,5 +49,4 @@ Route::get('/reflection/{id}',[]);
 Route::get('/reflectionTrajectory/{id}/{type}', [\App\Http\Controllers\ReflectionsController::class, 'indexFromReflectiontrajectory']);
 Route::get('/reflectionTrajectory/{id}',[ReflectionsTrajectoryController::class,'showTrajectory']);
 Route::get('/retrieveAllReflectionTrajectories', [ReflectionsTrajectoryController::class, 'retrieveAll']);
-
-Route::get('/testRefUpdate/{id}', [\App\Http\Controllers\ReflectionsController::class, 'AnswerQuestion']);
+Route::post('/answerQuestion',[\App\Http\Controllers\ReflectionsController::class, 'AnswerMultiQuestion']);

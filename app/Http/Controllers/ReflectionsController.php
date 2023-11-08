@@ -2,23 +2,33 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\closed_answer;
 use App\Models\question;
 use App\Models\Reflection;
 use App\Models\reflection_progression;
 use App\Models\reflection_question;
+use App\Models\reflection_trajectory;
+use Illuminate\Http\Request;
 
 class ReflectionsController extends Controller
 {
 
-    public function AnswerQuestion($reflection_id)
+    public function AnswerMultiQuestion(Request $request)
     {
-        //Check answer type
-        //Store answer with correct type
-        //Update ReflectionProgress
+        $reflection_id = $request->reflection_id;
+        $question_id = $request->question_id;
+        $answer_id = $request->option_id;
+        closed_answer::create([
+            'question_id' => $question_id,
+            'question_option_id' => $answer_id,
+            'reflection_id'=>$reflection_id
+        ]);
         $ref = reflection_progression::find($reflection_id);
         $ref->progress += 1;
         $ref->save();
-        return $ref;
+
+        $reflection=Reflection::find($reflection_id);
+        $ref_traj_id = reflection_trajectory::find($reflection->reflection_trajectory_id)->id;
     }
 
     public function getQuestionByIndex($type,$questionIndex)
@@ -32,6 +42,11 @@ class ReflectionsController extends Controller
      *          Start if not
      *      Continue reflection if already started
      * */
+    /**
+     * @param $id reflection_trajectory id
+     * @param $type reflection_type: past, present, future
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|void
+     */
     public function indexFromReflectiontrajectory($id, $type)
     {
         switch ($type){
