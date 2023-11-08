@@ -19,6 +19,14 @@ use \App\Http\Controllers\QuestionController;
 |
 */
 
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
 // Question routes
 Route::get('question/get/{$id}', [QuestionController::class, 'retrieveQuestion']);
 
