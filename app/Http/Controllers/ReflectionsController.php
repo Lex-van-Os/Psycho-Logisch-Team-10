@@ -14,8 +14,17 @@ use Illuminate\Http\Request;
 class ReflectionsController extends Controller
 {
 
+    //method to get a reflection_trajectory by reflection id
+    public function getReflectionTrajectoryByReflectionID($reflection_id) : reflection_trajectory
+    {
+        $reflection=Reflection::find($reflection_id);
+        return reflection_trajectory::find($reflection->reflection_trajectory_id);
+    }
     public function AnswerOpenQuestion(Request $request)
     {
+        $request->validate([
+            'answer'=>['max:3000']
+        ]);
         $reflection_id = $request->reflection_id;
         $question_id = $request->question_id;
         $answer = $request->answer;
@@ -30,8 +39,7 @@ class ReflectionsController extends Controller
 
         //redirect back to questions
         $reflection=Reflection::find($reflection_id);
-        $ref_traj_id = reflection_trajectory::find($reflection->reflection_trajectory_id)->id;
-        return redirect('/reflectionTrajectory/'.$ref_traj_id.'/'.$reflection->reflection_type);
+        return redirect('/reflectionTrajectory/'.$this->getReflectionTrajectoryByReflectionID($reflection_id)->id.'/'.$reflection->reflection_type);
     }
 
     public function AnswerMultiQuestion(Request $request)
@@ -79,12 +87,13 @@ class ReflectionsController extends Controller
                 {
                     $this->StartPastReflection($ref->id);
                 }else{
-                    $question = $this->getQuestionByIndex('past',$ref->reflection_progression()->first()->progress);
+                    $progress = $ref->reflection_progression()->first();
+                    $question = $this->getQuestionByIndex('past',$progress->progress);
                     if($question->type=='multiple_choice_question')
                     {
                         $questionOptions = $question->question_options()->get();
-                        return view('reflectionQuestions', ['question'=>$question, 'questionOptions'=>$questionOptions, 'ref_id' => $ref->id]);
-                    }else return view('reflectionQuestions', ['question'=>$question, 'ref_id' => $ref->id]);
+                        return view('reflectionQuestions', ['progression'=>$progress, 'questionCount'=>question::where('ref_type','=','past')->count(),'question'=>$question, 'questionOptions'=>$questionOptions, 'ref_id' => $ref->id]);
+                    }else return view('reflectionQuestions', ['progression'=>$progress,'questionCount'=>question::where('ref_type','=','past')->count(),'question'=>$question, 'ref_id' => $ref->id]);
                 }
                 break;
             case 'present':
