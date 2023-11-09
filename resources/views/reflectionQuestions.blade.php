@@ -3,7 +3,7 @@
     ?>
 
 <x-layout>
-    <div class="flex items-center justify-center">
+    <div class="flex items-center justify-center mt-3 mb-6">
         @for($i = 0; $i < $questionCount; $i++)
             @method($counter+=1)
             <div class="flex items-center">
