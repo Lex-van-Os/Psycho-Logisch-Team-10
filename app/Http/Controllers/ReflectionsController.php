@@ -10,6 +10,7 @@ use App\Models\reflection_progression;
 use App\Models\reflection_question;
 use App\Models\reflection_trajectory;
 use Illuminate\Http\Request;
+use Laravel\Prompts\Progress;
 
 class ReflectionsController extends Controller
 {
@@ -88,6 +89,14 @@ class ReflectionsController extends Controller
                     $this->StartPastReflection($ref->id);
                 }else{
                     $progress = $ref->reflection_progression()->first();
+
+                    if ($progress == null) 
+                    {
+                        $progress = new reflection_progression([
+                            'progress' => 0
+                        ]);
+                    }
+
                     $question = $this->getQuestionByIndex('past',$progress->progress);
                     if($question->type=='multiple_choice_question')
                     {
