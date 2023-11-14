@@ -5,6 +5,7 @@ use App\Http\Controllers\ClosedAnswerController;
 use App\Http\Controllers\HelperController;
 use App\Http\Controllers\OpenAnswerController;
 use Illuminate\Support\Facades\Route;
+use \App\Http\Controllers\ReflectionsController;
 use App\Http\Controllers\ReflectionsTrajectoryController;
 use \App\Http\Controllers\QuestionController;
 
@@ -54,8 +55,9 @@ Route::get('/', [ReflectionsTrajectoryController::class, 'showAll']);
 Route::post('/NewReflectionTrajectory', [ReflectionsTrajectoryController::class, 'store']);
 Route::get('/retrieveReflectionTrajectory/{id}', [ReflectionsTrajectoryController::class, 'retrieveReflectionTrajectory']);
 Route::get('/reflection/{id}',[]);
-Route::get('/reflectionTrajectory/{id}/{type}', [\App\Http\Controllers\ReflectionsController::class, 'indexFromReflectiontrajectory']);
+Route::get('/reflectionTrajectory/{id}/{type}', [ReflectionsController::class, 'indexFromReflectiontrajectory']);
 Route::get('/reflectionTrajectory/{id}',[ReflectionsTrajectoryController::class,'showTrajectory']);
 Route::get('/retrieveAllReflectionTrajectories', [ReflectionsTrajectoryController::class, 'retrieveAll']);
 
-Route::get('/testRefUpdate/{id}', [\App\Http\Controllers\ReflectionsController::class, 'AnswerQuestion']);
+Route::post('/answerMultipleChoice',[ReflectionsController::class, 'AnswerMultiQuestion']);
+Route::post('/answerOpenQuestion',[ReflectionsController::class, 'AnswerOpenQuestion']);

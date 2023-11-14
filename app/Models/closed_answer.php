@@ -9,6 +9,7 @@ class fclosed_answer extends Model
     protected $fillable = [
         'question_id',
         'question_option_id',
+        'reflection_id',
     ];
 
     public function question_option()
