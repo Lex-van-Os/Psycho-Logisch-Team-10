@@ -124,9 +124,9 @@ class ReflectionsController extends Controller
         }else return view('reflectionQuestions', ['question'=>$qi, 'ref_id' => $id]);
     }
 
-    public function getQuestionWithAnswer($) 
-    {
+    // public function getQuestionWithAnswer($) 
+    // {
 
-    }
+    // }
 
 }

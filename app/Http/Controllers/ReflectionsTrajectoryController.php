@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Reflection;
 use App\Models\reflection_question;
 use App\Models\reflection_trajectory;
+use App\ViewModels\SummaryAnswerViewModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -16,23 +17,21 @@ class ReflectionsTrajectoryController extends Controller
 
     public function showSummary($id)
     {
-        // $reflection = Reflection::where(['id','=',$id])->first();
-
-        // $reflectionQuestions = reflection_question::where('reflection_id', $id)->get();
-
-        // $questions = $reflectionQuestions->map(function ($reflectionQuestion) {
-        //     return $reflectionQuestion->question;
-        // });
-
         $reflectionQuestions = reflection_question::with(['question.question_open_answers', 'question.question_closed_answers'])
             ->where('reflection_id', $id)
             ->get();
 
         $questions = $reflectionQuestions->map(function ($reflectionQuestion) {
-            return $reflectionQuestion->question;
-        });
+            $question = $reflectionQuestion->question;
+            $answer = $question->type === 'open' ? $question->openAnswer : $question->closedAnswer;
 
-        Log::info($questions);
+            return new SummaryAnswerViewModel(
+                $question->id,
+                $question->title,
+                $answer ? $answer->text : null,
+                $question->type
+            );
+        });
 
         return view('reflectionSummary', compact('questions'));
     }
