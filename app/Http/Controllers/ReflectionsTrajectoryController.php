@@ -9,7 +9,9 @@ class ReflectionsTrajectoryController extends Controller
 {
     public function showAll()
     {
-        return view('welcome', ['ref_trajs' => reflection_trajectory::all()]);
+        if(\Auth::check()){
+            return view('welcome', ['ref_trajs' => reflection_trajectory::where('user_id', '=', \Auth::id())->get(), 'uid' => \Auth::id()]);
+        }else return view('welcome');
     }
 
     public function showTrajectory($id)
