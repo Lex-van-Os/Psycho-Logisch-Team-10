@@ -12,7 +12,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call(OpenQuestionSeeder::class);
+        $this->call(ReflectionTrajectorySeeder::class);
+        // $this->call(OpenQuestionSeeder::class);
         $this->call(ScaleQuestionSeeder::class);
         $this->call(MultipleChoiceQuestionSeeder::class);
     }
