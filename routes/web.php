@@ -33,6 +33,7 @@ Route::get('question/get/{$id}', [QuestionController::class, 'retrieveQuestion']
 
 // Answer routes
 Route::get('answer/get', [AnswerController::class, 'get'])->name('answer.get');
+Route::get('answer/getSharedAnswers', [AnswerController::class, 'getSharedAnswers'])->name('answer.getSharedAnswers');
 Route::post('answer/store', [AnswerController::class, 'store'])->name('answer.store');
 Route::put('answer/update', [AnswerController::class, 'update'])->name('answer.update');
 

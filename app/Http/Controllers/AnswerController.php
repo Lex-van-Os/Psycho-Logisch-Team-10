@@ -115,4 +115,21 @@ class AnswerController extends Controller
 
         return $openAnswer;
     }
+
+    public function getSharedAnswers()
+    {
+        try 
+        {
+            $sharedOpenAnswers = open_answer::where('shared', true)
+            ->select('id', 'value')
+            ->get();
+
+            return response()->json($sharedOpenAnswers);
+        } 
+        catch (\Exception $e) {
+            // Handle other exceptions
+            Log::error('An error occurred: ' . $e->getMessage());
+            return response()->json(['error' => 'An error occurred'], 500); // Internal Server Error
+        } 
+    }
 }
