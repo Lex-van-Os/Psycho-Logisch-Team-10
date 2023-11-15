@@ -24,7 +24,7 @@ class ReflectionsTrajectoryController extends Controller
 
     public function store(Request $request)
     {
-        $ref_trad = reflection_trajectory::create(['title' => $request->title, 'user_id' => '1']);
+        $ref_trad = reflection_trajectory::create(['title' => $request->title, 'user_id' => \Auth::id()]);
         Reflection::create(['reflection_trajectory_id' => $ref_trad->id, 'reflection_type' => 'past']);
         Reflection::create(['reflection_trajectory_id' => $ref_trad->id, 'reflection_type' => 'present']);
         Reflection::create(['reflection_trajectory_id' => $ref_trad->id, 'reflection_type' => 'future']);
