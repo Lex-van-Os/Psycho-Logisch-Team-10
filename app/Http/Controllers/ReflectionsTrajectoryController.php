@@ -2,14 +2,39 @@
 
 namespace App\Http\Controllers;
 use App\Models\Reflection;
+use App\Models\reflection_question;
 use App\Models\reflection_trajectory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ReflectionsTrajectoryController extends Controller
 {
     public function showAll()
     {
         return view('welcome', ['ref_trajs' => reflection_trajectory::all()]);
+    }
+
+    public function showSummary($id)
+    {
+        // $reflection = Reflection::where(['id','=',$id])->first();
+
+        // $reflectionQuestions = reflection_question::where('reflection_id', $id)->get();
+
+        // $questions = $reflectionQuestions->map(function ($reflectionQuestion) {
+        //     return $reflectionQuestion->question;
+        // });
+
+        $reflectionQuestions = reflection_question::with(['question.question_open_answers', 'question.question_closed_answers'])
+            ->where('reflection_id', $id)
+            ->get();
+
+        $questions = $reflectionQuestions->map(function ($reflectionQuestion) {
+            return $reflectionQuestion->question;
+        });
+
+        Log::info($questions);
+
+        return view('reflectionSummary', compact('questions'));
     }
 
     public function showTrajectory($id)
