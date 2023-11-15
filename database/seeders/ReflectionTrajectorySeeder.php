@@ -11,7 +11,7 @@ use App\Models\reflection_question;
 use App\Models\reflection_trajectory;
 use App\Models\User;
 
-class ReflectionSeeder extends Seeder
+class ReflectionTrajectorySeeder extends Seeder
 {
     /**
      * Seeder for an entire reflection trajectory (user, trajectory, reflection, questions)
