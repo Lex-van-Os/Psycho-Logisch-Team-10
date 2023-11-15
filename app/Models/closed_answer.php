@@ -10,6 +10,7 @@ class fclosed_answer extends Model
         'question_id',
         'question_option_id',
         'reflection_id',
+        'user_id'
     ];
 
     public function question_option()
