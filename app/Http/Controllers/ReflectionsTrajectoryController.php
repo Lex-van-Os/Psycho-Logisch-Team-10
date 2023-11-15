@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Reflection;
 use App\Models\reflection_question;
 use App\Models\reflection_trajectory;
-use App\ViewModels\SummaryAnswerViewModel;
+use App\ViewModels\SummaryQuestionViewModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -20,16 +20,34 @@ class ReflectionsTrajectoryController extends Controller
         $reflectionQuestions = reflection_question::with(['question.question_open_answers', 'question.question_closed_answers'])
             ->where('reflection_id', $id)
             ->get();
+        
+        $user = auth()->user();
 
-        $questions = $reflectionQuestions->map(function ($reflectionQuestion) {
+        // $userId = $user->id;
+        $userId = 1; // Demo value till login functionality is made
+
+        $questions = $reflectionQuestions->map(function ($reflectionQuestion) use ($userId) {
             $question = $reflectionQuestion->question;
-            $answer = $question->type === 'open' ? $question->openAnswer : $question->closedAnswer;
+            $answers = $question->type === 'open_question' ? $question->question_open_answers : $question->question_closed_answers;
 
-            return new SummaryAnswerViewModel(
+            $filteredAnswers = $answers->where('user_id', $userId);
+
+            $answer = $filteredAnswers->first();
+            $answerId = null;
+
+            if ($answer) 
+            {
+                $answerId = $answer->id;
+            }
+            else 
+            {
+                $answerId = 0;
+            }
+
+            return new SummaryQuestionViewModel(
                 $question->id,
+                $answerId,
                 $question->title,
-                $answer ? $answer->text : null,
-                $question->type
             );
         });
 

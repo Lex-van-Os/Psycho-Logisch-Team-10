@@ -9,7 +9,9 @@ use App\Models\Reflection;
 use App\Models\reflection_progression;
 use App\Models\reflection_question;
 use App\Models\reflection_trajectory;
+use App\ViewModels\SummaryAnswerViewModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ReflectionsController extends Controller
 {
@@ -124,9 +126,43 @@ class ReflectionsController extends Controller
         }else return view('reflectionQuestions', ['question'=>$qi, 'ref_id' => $id]);
     }
 
-    // public function getQuestionWithAnswer($) 
-    // {
-
-    // }
+    public function getQuestionWithAnswer($questionId, $answerId) 
+    {
+        try 
+        {
+            $question = question::with(['question_open_answers', 'question_closed_answers'])->get();
+            $questionAnswer = null;
+    
+            if ($question->type == 'open_question' || $question->type == 'scale_question')
+            {
+                $questionAnswer = $question->question_open_answers->where('id', $answerId)->first();
+            }   
+            else if ($question->type == 'multiple_choice_question')
+            {
+                $closedAnswer = $question->question_closed_answers->where('id', $answerId)->first();
+    
+                $questionAnswer = $closedAnswer->question_option->value;
+            }
+    
+            if ($questionAnswer)
+            {
+                $answer = new SummaryAnswerViewModel(
+                    $question->title,
+                    $questionAnswer->value
+                );
+    
+                return response()->json(['answer' => $answer]);
+            }
+            else 
+            {
+                return response()->json(['answer' => null]);
+            }
+        } 
+        catch (\Exception $e) {
+            // Handle other exceptions
+            Log::error('An error occurred: ' . $e->getMessage());
+            return response()->json(['error' => 'An error occurred'], 500); // Internal Server Error
+        }
+    }
 
 }

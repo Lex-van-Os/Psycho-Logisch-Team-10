@@ -4,16 +4,12 @@ namespace App\ViewModels;
 
 class SummaryAnswerViewModel
 {
-    public $questionId;
-    public $title;
-    public $text;
-    public $type;
+    public $questionTitle;
+    public $answerText;
 
-    public function __construct($questionId, $title, $text, $type)
+    public function __construct($questionTitle, $answerText)
     {
-        $this->questionId = $questionId;
-        $this->title = $title;
-        $this->text = $text;
-        $this->type = $type;
+        $this->questionTitle = $questionTitle;
+        $this->answerText = $answerText;
     }
 }

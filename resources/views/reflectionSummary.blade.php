@@ -1,4 +1,8 @@
 <x-layout>
+    <head>
+        @vite('resources/js/reflectionSummary.js')
+    </head>
+
     <div class="m-3 dark:text-white flex gap-8">
         <!-- Left side: Reflection title and text -->
         <div class="flex-1 p-6 bg-gray-900 rounded-lg shadow-lg">
@@ -26,7 +30,7 @@
             <ul>
                 @foreach($questions as $question)
                     <li class="mb-3 cursor-pointer">
-                        <a href="" type="{{ $question->type }}" class="hover:text-blue-400">
+                        <a class="questionListItem" questionId="{{ $question->questionId }}" answerId="{{ $question->answerId }}" class="hover:text-blue-400">
                             {{ $question->title }}
                         </a>
                     </li>

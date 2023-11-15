@@ -1,11 +1,25 @@
 import axios from "axios";
 
-async function getReflectionAnswer(questionId) {
+document.addEventListener("DOMContentLoaded", function () {
+    var questionListItems = document.querySelectorAll(".questionListItem");
+
+    questionListItems.forEach(function (element) {
+        element.addEventListener("click", function () {
+            let itemQuestionId = parseInt(element.getAttribute("questionId"));
+            let itemAnswerId = parseInt(element.getAttribute("answerId"));
+
+            displayReflectionAnswer(itemQuestionId, itemAnswerId);
+        });
+    });
+});
+
+async function getReflectionAnswer(questionId, answerId) {
     try {
         const response = await axios.get(
-            `/question/get/${$questionId}`
+            `/reflectionTrajectory/getQuestionWithAnswer?questionId=${questionId}&answerId=${answerId}`
         );
 
+        debugger;
         const results = response.data;
 
         return results;
@@ -17,18 +31,24 @@ async function getReflectionAnswer(questionId) {
 }
 
 function displayShareButton() {
-    shareBtn = document.getElementById('share-answer-btn');
-
+    shareBtn = document.getElementById("share-answer-btn");
 }
 
-async function displayReflectionAnswer(questionId) {
-    answerTitle = document.getElementById('selected-answer-title');
-    answerText = document.getElementById('selected-answer-text');
+async function displayReflectionAnswer(questionId, answerId) {
+    let answerTitle = document.getElementById("selected-answer-title");
+    let answerText = document.getElementById("selected-answer-text");
+    let reflectionAnswer;
 
-    let reflectionAnswer = await getReflectionAnswer(questionId);
+    if (answerId != 0) {
+        reflectionAnswer = await getReflectionAnswer(questionId, answerId);
+    } else {
+        reflectionAnswer = null;
+    }
 
     if (reflectionAnswer != null) {
-        answerTitle.value = reflectionAnswer.title;
-        answerText = reflectionAnswer.title
+        answerTitle.value = reflectionAnswer.questionTitle;
+        answerText = reflectionAnswer.answerText;
+    } else {
+        console.log("No answer found");
     }
 }
