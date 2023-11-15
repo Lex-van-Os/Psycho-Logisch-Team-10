@@ -95,7 +95,8 @@ class ReflectionsController extends Controller
                     if ($progress == null)
                     {
                         $progress = new reflection_progression([
-                            'progress' => 0
+                            'progress' => 0,
+                            'reflection_id' => $ref->id
                         ]);
                     }
 
