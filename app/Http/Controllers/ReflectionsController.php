@@ -11,6 +11,7 @@ use App\Models\reflection_question;
 use App\Models\reflection_trajectory;
 use App\ViewModels\SummaryAnswerViewModel;
 use Illuminate\Http\Request;
+use Laravel\Prompts\Progress;
 use Illuminate\Support\Facades\Log;
 
 class ReflectionsController extends Controller
@@ -33,7 +34,8 @@ class ReflectionsController extends Controller
         open_answer::create([
             'value' => $answer,
             'question_id' => $question_id,
-            'reflection_id'=>$reflection_id
+            'reflection_id'=>$reflection_id,
+            'user_id'=>\Auth::id()
         ]);
         $ref = reflection_progression::where('reflection_id', '=', $reflection_id)->first();
         $ref->progress += 1;
@@ -52,7 +54,8 @@ class ReflectionsController extends Controller
         closed_answer::create([
             'question_id' => $question_id,
             'question_option_id' => $answer_id,
-            'reflection_id'=>$reflection_id
+            'reflection_id'=>$reflection_id,
+            'user_id'=>\Auth::id()
         ]);
         $ref = reflection_progression::where('reflection_id', '=', $reflection_id)->first();
         $ref->progress += 1;
@@ -90,6 +93,15 @@ class ReflectionsController extends Controller
                     $this->StartPastReflection($ref->id);
                 }else{
                     $progress = $ref->reflection_progression()->first();
+
+                    if ($progress == null)
+                    {
+                        $progress = new reflection_progression([
+                            'progress' => 0,
+                            'reflection_id' => $ref->id
+                        ]);
+                    }
+
                     $question = $this->getQuestionByIndex('past',$progress->progress);
                     if($question->type=='multiple_choice_question')
                     {

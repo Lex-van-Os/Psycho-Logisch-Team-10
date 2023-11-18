@@ -20,9 +20,9 @@ use \App\Http\Controllers\QuestionController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Check if user is logged in, then show them their reflections if they are.
+Route::get('/', [ReflectionsTrajectoryController::class,'showAll']);
+
 
 Auth::routes();
 
@@ -51,7 +51,6 @@ Route::post('closedAnswer/store', [ClosedAnswerController::class, 'store'])->nam
 // Misc
 Route::get('/getCsrfToken', [HelperController::class, 'getCsrfToken'])->name('getCsrfToken');
 
-Route::get('/', [ReflectionsTrajectoryController::class, 'showAll']);
 Route::post('/NewReflectionTrajectory', [ReflectionsTrajectoryController::class, 'store']);
 Route::get('/retrieveReflectionTrajectory/{id}', [ReflectionsTrajectoryController::class, 'retrieveReflectionTrajectory']);
 Route::get('/reflection/{id}',[]);

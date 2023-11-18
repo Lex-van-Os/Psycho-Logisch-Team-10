@@ -2,19 +2,52 @@
 
 namespace Database\Seeders;
 
+use App\Models\reflection_progression;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Reflection;
 use App\Models\question;
 use App\Models\reflection_question;
+use App\Models\reflection_trajectory;
+use App\Models\User;
 
-class OpenQuestionSeeder extends Seeder
+class ReflectionTrajectorySeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Seeder for an entire reflection trajectory (user, trajectory, reflection, questions)
      */
     public function run(): void
     {
-        // Past
+        // Create a demo user to link the trajectory to
+        $demoUser = User::create([
+            'name' => 'demouser',
+            'email'=> 'demo@demo.nl',
+            'password' => 'demouser'
+        ]);
+
+        // Create a demo trajectory
+        $demoTrajectory = reflection_trajectory::create([
+            'title' => 'Demo trajectory',
+            'user_id' => $demoUser->id
+        ]);
+
+        // Create the three different types of trajectory. Corresponding questions will be linked
+        $pastReflection = Reflection::create([
+            'reflection_type' => 'past',
+            'reflection_trajectory_id' => $demoTrajectory->id
+        ]);
+
+        $presentReflection = Reflection::create([
+            'reflection_type' => 'present',
+            'reflection_trajectory_id' => $demoTrajectory->id
+        ]);
+
+        $futureReflection = Reflection::create([
+            'reflection_type' => 'future',
+            'reflection_trajectory_id' => $demoTrajectory->id
+        ]);
+
+        // Past reflection questions
 
         $pastQuestion = question::create([
             'title' => 'Wat zijn de positieve ervaringen die je hebt gehad met betrekking tot dit onderwerp?',
@@ -24,7 +57,7 @@ class OpenQuestionSeeder extends Seeder
 
         reflection_question::create([
             'question_id' => $pastQuestion->id,
-            'reflection_id' => 1
+            'reflection_id' => $pastReflection->id
         ]);
 
         $pastQuestion = question::create([
@@ -35,7 +68,7 @@ class OpenQuestionSeeder extends Seeder
 
         reflection_question::create([
             'question_id' => $pastQuestion->id,
-            'reflection_id' => 1
+            'reflection_id' => $pastReflection->id
         ]);
 
         $pastQuestion = question::create([
@@ -46,7 +79,7 @@ class OpenQuestionSeeder extends Seeder
 
         reflection_question::create([
             'question_id' => $pastQuestion->id,
-            'reflection_id' => 1
+            'reflection_id' => $pastReflection->id
         ]);
 
         $pastQuestion = question::create([
@@ -57,7 +90,7 @@ class OpenQuestionSeeder extends Seeder
 
         reflection_question::create([
             'question_id' => $pastQuestion->id,
-            'reflection_id' => 1
+            'reflection_id' => $pastReflection->id
         ]);
 
         $pastQuestion = question::create([
@@ -68,7 +101,7 @@ class OpenQuestionSeeder extends Seeder
 
         reflection_question::create([
             'question_id' => $pastQuestion->id,
-            'reflection_id' => 1
+            'reflection_id' => $pastReflection->id
         ]);
 
         $pastQuestion = question::create([
@@ -79,7 +112,7 @@ class OpenQuestionSeeder extends Seeder
 
         reflection_question::create([
             'question_id' => $pastQuestion->id,
-            'reflection_id' => 1
+            'reflection_id' => $pastReflection->id
         ]);
 
         $pastQuestion = question::create([
@@ -90,7 +123,7 @@ class OpenQuestionSeeder extends Seeder
 
         reflection_question::create([
             'question_id' => $pastQuestion->id,
-            'reflection_id' => 1
+            'reflection_id' => $pastReflection->id
         ]);
 
         $pastQuestion = question::create([
@@ -101,7 +134,7 @@ class OpenQuestionSeeder extends Seeder
 
         reflection_question::create([
             'question_id' => $pastQuestion->id,
-            'reflection_id' => 1
+            'reflection_id' => $pastReflection->id
         ]);
 
         $pastQuestion = question::create([
@@ -112,7 +145,7 @@ class OpenQuestionSeeder extends Seeder
 
         reflection_question::create([
             'question_id' => $pastQuestion->id,
-            'reflection_id' => 1
+            'reflection_id' => $pastReflection->id
         ]);
 
         $pastQuestion = question::create([
@@ -123,10 +156,10 @@ class OpenQuestionSeeder extends Seeder
 
         reflection_question::create([
             'question_id' => $pastQuestion->id,
-            'reflection_id' => 1
+            'reflection_id' => $pastReflection->id
         ]);
 
-        // Present
+        // Present reflection questions
 
         $presentQuestion = question::create([
             'title' => 'Hoe ga je momenteel om met dit onderwerp?',
@@ -135,8 +168,8 @@ class OpenQuestionSeeder extends Seeder
         ]);
 
         reflection_question::create([
-            'question_id' => $pastQuestion->id,
-            'reflection_id' => 1
+            'question_id' => $presentQuestion->id,
+            'reflection_id' => $presentReflection->id
         ]);
 
         $presentQuestion = question::create([
@@ -146,8 +179,8 @@ class OpenQuestionSeeder extends Seeder
         ]);
 
         reflection_question::create([
-            'question_id' => $pastQuestion->id,
-            'reflection_id' => 1
+            'question_id' => $presentQuestion->id,
+            'reflection_id' => $presentReflection->id
         ]);
 
         $presentQuestion = question::create([
@@ -157,8 +190,8 @@ class OpenQuestionSeeder extends Seeder
         ]);
 
         reflection_question::create([
-            'question_id' => $pastQuestion->id,
-            'reflection_id' => 1
+            'question_id' => $presentQuestion->id,
+            'reflection_id' => $presentReflection->id
         ]);
 
         $presentQuestion = question::create([
@@ -168,8 +201,8 @@ class OpenQuestionSeeder extends Seeder
         ]);
 
         reflection_question::create([
-            'question_id' => $pastQuestion->id,
-            'reflection_id' => 1
+            'question_id' => $presentQuestion->id,
+            'reflection_id' => $presentReflection->id
         ]);
 
         $presentQuestion = question::create([
@@ -179,8 +212,8 @@ class OpenQuestionSeeder extends Seeder
         ]);
 
         reflection_question::create([
-            'question_id' => $pastQuestion->id,
-            'reflection_id' => 1
+            'question_id' => $presentQuestion->id,
+            'reflection_id' => $presentReflection->id
         ]);
 
         $presentQuestion = question::create([
@@ -190,87 +223,103 @@ class OpenQuestionSeeder extends Seeder
         ]);
 
         reflection_question::create([
-            'question_id' => $pastQuestion->id,
-            'reflection_id' => 1
+            'question_id' => $presentQuestion->id,
+            'reflection_id' => $presentReflection->id
         ]);
 
-        // Future
+        // Future reflection questions
 
-        $presentQuestion = question::create([
+        $futureQuestion = question::create([
             'title' => 'Wat zijn dingen die je zou willen veranderen?',
             'type' => 'open_question',
             'ref_type' => 'future'
         ]);
 
         reflection_question::create([
-            'question_id' => $pastQuestion->id,
-            'reflection_id' => 1
+            'question_id' => $futureQuestion->id,
+            'reflection_id' => $futureReflection->id
         ]);
         
-        $presentQuestion = question::create([
+        $futureQuestion = question::create([
             'title' => 'Hoe zou je leven veranderen als je deze veranderingen doorvoert?',
             'type' => 'open_question',
             'ref_type' => 'future'
         ]);
 
         reflection_question::create([
-            'question_id' => $pastQuestion->id,
-            'reflection_id' => 1
+            'question_id' => $futureQuestion->id,
+            'reflection_id' => $futureReflection->id
         ]);
 
-        $presentQuestion = question::create([
+        $futureQuestion = question::create([
             'title' => 'Hoe zouden anderen naar je kijken, met verandering?',
             'type' => 'open_question',
             'ref_type' => 'future'
         ]);
 
         reflection_question::create([
-            'question_id' => $pastQuestion->id,
-            'reflection_id' => 1
+            'question_id' => $futureQuestion->id,
+            'reflection_id' => $futureReflection->id
         ]);
 
-        $presentQuestion = question::create([
+        $futureQuestion = question::create([
             'title' => 'Wat voor sociale impact zou je verandering kunnen hebben?',
             'type' => 'open_question',
             'ref_type' => 'future'
         ]);
 
         reflection_question::create([
-            'question_id' => $pastQuestion->id,
-            'reflection_id' => 1
+            'question_id' => $futureQuestion->id,
+            'reflection_id' => $futureReflection->id
         ]);
 
-        $presentQuestion = question::create([
+        $futureQuestion = question::create([
             'title' => 'Wat is je (on)tevredenheid met betrekking tot dit onderwerp?',
             'type' => 'open_question',
             'ref_type' => 'future'
         ]);
 
         reflection_question::create([
-            'question_id' => $pastQuestion->id,
-            'reflection_id' => 1
+            'question_id' => $futureQuestion->id,
+            'reflection_id' => $futureReflection->id
         ]);
 
-        $presentQuestion = question::create([
+        $futureQuestion = question::create([
             'title' => 'Wat voor dingen zouden er moeten veranderen om een verandering te maken?',
             'type' => 'open_question',
             'ref_type' => 'future'
         ]);
 
         reflection_question::create([
-            'question_id' => $pastQuestion->id,
-            'reflection_id' => 1
+            'question_id' => $futureQuestion->id,
+            'reflection_id' => $futureReflection->id
         ]);
 
-        $presentQuestion = question::create([
+        $futureQuestion = question::create([
             'title' => 'Wat zijn dagelijkse of wekelijkse gewoontes die zouden bijdragen aan deze verandering?',
             'type' => 'open_question',
             'ref_type' => 'future'
         ]);
 
         reflection_question::create([
-            'question_id' => $pastQuestion->id,
-            'reflection_id' => 1
+            'question_id' => $futureQuestion->id,
+            'reflection_id' => $futureReflection->id
+        ]);
+
+        // Create the reflection progressions
+        reflection_progression::create([
+            'reflection_id' => $pastReflection->id,
+            'progress' => 0
+        ]);
+
+        reflection_progression::create([
+            'reflection_id' => $presentReflection->id,
+            'progress' => 0
+        ]);
+
+        reflection_progression::create([
+            'reflection_id' => $futureReflection->id,
+            'progress' => 0
         ]);
     }
 }

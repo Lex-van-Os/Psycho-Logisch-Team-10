@@ -10,5 +10,6 @@ class open_answer extends Model
         'value',
         'question_id',
         'reflection_id',
+        'user_id'
     ];
 }

@@ -12,7 +12,9 @@ class ReflectionsTrajectoryController extends Controller
 {
     public function showAll()
     {
-        return view('welcome', ['ref_trajs' => reflection_trajectory::all()]);
+        if(\Auth::check()){
+            return view('welcome', ['ref_trajs' => reflection_trajectory::where('user_id', '=', \Auth::id())->get(), 'uid' => \Auth::id()]);
+        }else return view('welcome');
     }
 
     public function showSummary($id)
@@ -66,7 +68,7 @@ class ReflectionsTrajectoryController extends Controller
 
     public function store(Request $request)
     {
-        $ref_trad = reflection_trajectory::create(['title' => $request->title, 'user_id' => '1']);
+        $ref_trad = reflection_trajectory::create(['title' => $request->title, 'user_id' => \Auth::id()]);
         Reflection::create(['reflection_trajectory_id' => $ref_trad->id, 'reflection_type' => 'past']);
         Reflection::create(['reflection_trajectory_id' => $ref_trad->id, 'reflection_type' => 'present']);
         Reflection::create(['reflection_trajectory_id' => $ref_trad->id, 'reflection_type' => 'future']);
