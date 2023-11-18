@@ -138,11 +138,14 @@ class ReflectionsController extends Controller
         }else return view('reflectionQuestions', ['question'=>$qi, 'ref_id' => $id]);
     }
 
-    public function getQuestionWithAnswer($questionId, $answerId) 
+    public function getQuestionWithAnswer(Request $request) 
     {
         try 
         {
-            $question = question::with(['question_open_answers', 'question_closed_answers'])->get();
+            $questionId = $request->query('questionId');
+            $answerId = $request->query('answerId');
+            
+            $question = question::with(['question_open_answers', 'question_closed_answers'])->where('id', $questionId)->first();
             $questionAnswer = null;
     
             if ($question->type == 'open_question' || $question->type == 'scale_question')
@@ -173,6 +176,7 @@ class ReflectionsController extends Controller
         catch (\Exception $e) {
             // Handle other exceptions
             Log::error('An error occurred: ' . $e->getMessage());
+            Log::error($e->getTrace());
             return response()->json(['error' => 'An error occurred'], 500); // Internal Server Error
         }
     }

@@ -58,7 +58,7 @@ Route::get('reflectionTrajectory/{id}/summary',[ReflectionsTrajectoryController:
 Route::get('/reflectionTrajectory/{id}/{type}', [ReflectionsController::class, 'indexFromReflectiontrajectory']);
 Route::get('/reflectionTrajectory/{id}',[ReflectionsTrajectoryController::class,'showTrajectory']);
 Route::get('/retrieveAllReflectionTrajectories', [ReflectionsTrajectoryController::class, 'retrieveAll']);
-Route::get('/reflectionTrajectory/getQuestionWithAnswer', [ReflectionsTrajectoryController::class, 'getQuestionWithAnswer'])->name('getQuestionWithAnswer');
+Route::get('/reflectionTrajectory/getQuestionWithAnswer', [ReflectionsController::class, 'getQuestionWithAnswer'])->name('reflectionTrajectory.getQuestionWithAnswer');
 
 Route::post('/answerMultipleChoice',[ReflectionsController::class, 'AnswerMultiQuestion']);
 Route::post('/answerOpenQuestion',[ReflectionsController::class, 'AnswerOpenQuestion']);

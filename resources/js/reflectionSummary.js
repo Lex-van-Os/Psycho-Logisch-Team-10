@@ -19,8 +19,7 @@ async function getReflectionAnswer(questionId, answerId) {
             `/reflectionTrajectory/getQuestionWithAnswer?questionId=${questionId}&answerId=${answerId}`
         );
 
-        debugger;
-        const results = response.data;
+        const results = response.data.answer;
 
         return results;
     } catch (error) {
@@ -46,8 +45,8 @@ async function displayReflectionAnswer(questionId, answerId) {
     }
 
     if (reflectionAnswer != null) {
-        answerTitle.value = reflectionAnswer.questionTitle;
-        answerText = reflectionAnswer.answerText;
+        answerTitle.textContent = reflectionAnswer.questionTitle;
+        answerText.textContent = reflectionAnswer.answerText;
     } else {
         console.log("No answer found");
     }
