@@ -15,4 +15,9 @@ class reflection_question extends Model
     {
         return $this->hasMany(question_option::class);
     }
+
+    public function question()
+    {
+        return $this->belongsTo(Question::class, 'question_id');
+    }
 }

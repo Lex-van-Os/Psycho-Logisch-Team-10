@@ -11,8 +11,9 @@ use App\Models\question;
 use App\Models\reflection_question;
 use App\Models\reflection_trajectory;
 use App\Models\User;
+use Illuminate\Support\Facades\Log;
 
-class AnsweredTrajectorySeeder extends Seeder
+class DemoSeeder extends Seeder
 {
 
     /**
@@ -139,36 +140,18 @@ class AnsweredTrajectorySeeder extends Seeder
             ",
         ];
 
-        // Create a demo user to link the trajectory to
-        $demoUser = User::first();
-
-        // Create a demo trajectory
-        $demoTrajectory = reflection_trajectory::create([
-            'title' => 'Zelfbeeld van social media',
-            'user_id' => $demoUser->id
-        ]);
-
-        // Create the three different types of trajectory. Corresponding questions will be linked
-        $pastReflection = Reflection::create([
-            'reflection_type' => 'past',
-            'reflection_trajectory_id' => $demoTrajectory->id
-        ]);
-
-        $presentReflection = Reflection::create([
-            'reflection_type' => 'present',
-            'reflection_trajectory_id' => $demoTrajectory->id
-        ]);
-
-        $futureReflection = Reflection::create([
-            'reflection_type' => 'future',
-            'reflection_trajectory_id' => $demoTrajectory->id
-        ]);
-
         // Past reflection answers 
 
         // Open answers
 
         // Retrieve all past reflection open questions, to retrieve answers for
+        // $pastReflectionOpenQuestions = reflection_question::whereHas('question', function ($query) {
+        //     $query->where('type', 'open_question');
+        // })
+        // ->where('reflection_id', 1)
+        // ->with('question')
+        // ->get();
+
         $pastReflectionOpenQuestions = question::where('ref_type', 'past')
         ->where('type', 'open_question')
         ->get();
@@ -176,37 +159,26 @@ class AnsweredTrajectorySeeder extends Seeder
         $totalQuestions = count($pastReflectionOpenQuestions);
         $totalAnswerTexts = count($demoAnswers);
 
+        // Log::info($pastReflectionOpenQuestions);
+        foreach ($pastReflectionOpenQuestions as $reflectionQuestion)
+        {
+            Log::info($reflectionQuestion);
+        }
+        Log::info($totalQuestions);
+        Log::info($totalAnswerTexts);
+
         // Loop through the questions and assign answer texts iteratively
         for ($i = 0; $i < $totalQuestions; $i++) {
             // Calculate the index in the answer texts array using modulo
             $answerIndex = $i % $totalAnswerTexts;
 
-            open_answer::create([
-                'value' => $demoAnswers[$answerIndex],
-                'question_id' => $pastReflectionOpenQuestions[$i]->id,
-                'reflection_id' => $pastReflection->id,
-                'user_id' => $demoUser->id,
-            ]);
+            // open_answer::create([
+            //     'value' => $demoAnswers[$answerIndex],
+            //     'question_id' => $pastReflectionOpenQuestions[$i]->id,
+            //     'reflection_id' => $pastReflection->id,
+            //     'user_id' => $demoUser->id,
+            // ]);
         }
 
-        // Present reflection questions
-
-        // Future reflection questions
-
-        // Create the reflection progressions
-        reflection_progression::create([
-            'reflection_id' => $pastReflection->id,
-            'progress' => 0
-        ]);
-
-        reflection_progression::create([
-            'reflection_id' => $presentReflection->id,
-            'progress' => 0
-        ]);
-
-        reflection_progression::create([
-            'reflection_id' => $futureReflection->id,
-            'progress' => 0
-        ]);
     }
 }
