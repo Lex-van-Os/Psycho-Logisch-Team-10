@@ -32,7 +32,8 @@ class ReflectionsController extends Controller
         open_answer::create([
             'value' => $answer,
             'question_id' => $question_id,
-            'reflection_id'=>$reflection_id
+            'reflection_id'=>$reflection_id,
+            'user_id'=>\Auth::id()
         ]);
         $ref = reflection_progression::where('reflection_id', '=', $reflection_id)->first();
         $ref->progress += 1;
@@ -51,7 +52,8 @@ class ReflectionsController extends Controller
         closed_answer::create([
             'question_id' => $question_id,
             'question_option_id' => $answer_id,
-            'reflection_id'=>$reflection_id
+            'reflection_id'=>$reflection_id,
+            'user_id'=>\Auth::id()
         ]);
         $ref = reflection_progression::where('reflection_id', '=', $reflection_id)->first();
         $ref->progress += 1;
@@ -90,10 +92,11 @@ class ReflectionsController extends Controller
                 }else{
                     $progress = $ref->reflection_progression()->first();
 
-                    if ($progress == null) 
+                    if ($progress == null)
                     {
                         $progress = new reflection_progression([
-                            'progress' => 0
+                            'progress' => 0,
+                            'reflection_id' => $ref->id
                         ]);
                     }
 
