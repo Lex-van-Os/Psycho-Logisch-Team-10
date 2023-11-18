@@ -11,6 +11,7 @@ use App\Models\question;
 use App\Models\reflection_question;
 use App\Models\reflection_trajectory;
 use App\Models\User;
+use Illuminate\Support\Facades\Log;
 
 class AnsweredTrajectorySeeder extends Seeder
 {
@@ -180,6 +181,11 @@ class AnsweredTrajectorySeeder extends Seeder
         for ($i = 0; $i < $totalQuestions; $i++) {
             // Calculate the index in the answer texts array using modulo
             $answerIndex = $i % $totalAnswerTexts;
+
+            reflection_question::create([
+                'question_id' => $pastReflectionOpenQuestions[$i]->id,
+                'reflection_id' => $pastReflection->id
+            ]);
 
             open_answer::create([
                 'value' => $demoAnswers[$answerIndex],
