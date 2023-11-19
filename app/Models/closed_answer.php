@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class fclosed_answer extends Model
+class closed_answer extends Model
 {
     protected $fillable = [
         'question_id',
