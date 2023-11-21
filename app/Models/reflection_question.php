@@ -10,4 +10,14 @@ class reflection_question extends Model
         'question_id',
         'reflection_id',
     ];
+
+    public function question_options()
+    {
+        return $this->hasMany(question_option::class);
+    }
+
+    public function question()
+    {
+        return $this->belongsTo(question::class);
+    }
 }
