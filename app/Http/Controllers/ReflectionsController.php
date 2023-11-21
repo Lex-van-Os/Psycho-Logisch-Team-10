@@ -16,6 +16,37 @@ use Illuminate\Support\Facades\Log;
 
 class ReflectionsController extends Controller
 {
+    /**
+     * @param $type
+     * @param $index
+     * @param $reflection_id
+     * @return void
+     *
+     * W.I.P function for the questions navbar to go back and forth
+     */
+    public function navigateToQuestion($type, $index, $reflection_id)
+    {
+        //Get Questions
+        $questions = question::where('type', '=' ,$type);
+        //Get reflection question by type and index
+        $question = $questions[$index];
+        //Get Progress
+        $progress = reflection_progression::where('reflection_id', '=', $reflection_id)->first();
+        //Get saved answer if reflection_progress is higher
+        if($index >= $progress->progress)
+        {
+            switch ($questions->type)
+            {
+                case 'open_question':
+                    $open_answer = open_answer::where([['question_id', '=', $question->id],
+                        ], ['reflection_id', '=', $reflection_id]);
+                    break;
+                case 'scale_question' || 'multiple_choice_question':
+                    break;
+            }
+        }
+        //return data in reflection Question view
+    }
 
     //method to get a reflection_trajectory by reflection id
     public function getReflectionTrajectoryByReflectionID($reflection_id) : reflection_trajectory
@@ -104,6 +135,7 @@ class ReflectionsController extends Controller
             }
 
             $question = $this->getQuestionByIndex($type,$progress->progress);
+            //check if the questionare is finished
             if(!isset($question))
             {
                 return view('reflectionSummary', ['questions' => question::where('ref_type','=',$type)->get()]);
