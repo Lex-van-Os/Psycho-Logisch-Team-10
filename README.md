@@ -11,7 +11,7 @@ Team:
 
 
 
-## Installation
+## Install guide Laravel application
 
 ### Connecting to a local database
 This project makes use of a hosted MySQL database
@@ -53,7 +53,7 @@ Having added the tables, test data is to be inserted using the following command
 php artisan db:seed
 ```
 
-## Starting the application
+## Starting the Laravel application
 To run the application, two processes have to be started in two seperate terminals. Both are to be executed in the project root folder:
 
 ### Running the development server
@@ -67,6 +67,51 @@ The following command runs the project application builder; Vite:
 ```bash
 npm run dev
 ```
+
+## Install guide Python application
+
+### Prerequisites
+To make use of the Python application for AI related actions on application data, the following things are required:
+- Python installed
+- Postman for testing (recommended)
+
+### Navigating to the project folder
+To ensure that commands are correctly executed, you should navigate to the following folder:
+```bash 
+/insights
+```
+
+### Setup virtual environment
+To avoid installing required project packages globally, a virtual environment should be set-up. In this way, the installed libraries are contained in the scope of the project.
+
+```bash 
+py -m pip install virtualenv
+```
+```bash 
+py -m venv {your-environment-name}
+```
+```bash 
+{your-environment-name}/Scripts/activate
+```
+
+### Install the required packages
+```bash 
+pip install -r requirements.txt
+```
+
+### Running the application
+```bash 
+flask run
+```
+
+### Using the application
+The Insights application should be ran alongside of the main project application. Through the use of both applications, AI related actions can be achieved.
+
+### Functionality
+Through the use of a Python API, seperate services are called that make use of primarily the Hugging Face Python library for AI related actions.
+
+The API is communicated with through a seperate controller inside of the Laravel application
+
 
 ## Development guide
 To ensure that developers follow the same development guidelines, a development guide has been defined.

@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\closed_answer;
 use App\Models\open_answer;
 use App\Models\question_option;
+use App\Models\reflection_question;
+use App\ViewModels\SummaryQuestionViewModel;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -114,6 +116,39 @@ class AnswerController extends Controller
         ]);
 
         return $openAnswer;
+    }
+
+    public function retrieveQuestionsWithAnswers($reflectionId, $userId) {
+        $reflectionQuestions = reflection_question::with(['question.question_open_answers', 'question.question_closed_answers'])
+        ->where('reflection_id', $reflectionId)
+        ->get();
+
+        $questions = $reflectionQuestions->map(function ($reflectionQuestion) use ($userId) {
+            $question = $reflectionQuestion->question;
+            $answers = $question->type === 'open_question' ? $question->question_open_answers : $question->question_closed_answers;
+
+            $filteredAnswers = $answers->where('user_id', $userId);
+
+            $answer = $filteredAnswers->first();
+            $answerId = null;
+
+            if ($answer) 
+            {
+                $answerId = $answer->id;
+            }
+            else 
+            {
+                $answerId = 0;
+            }
+
+            return new SummaryQuestionViewModel(
+                $question->id,
+                $answerId,
+                $question->title,
+            );
+        });
+
+        return $questions;
     }
 
     public function getSharedAnswers()
