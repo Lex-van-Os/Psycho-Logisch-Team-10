@@ -29,7 +29,7 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 // Question routes
-Route::get('question/get/{$id}', [QuestionController::class, 'retrieveQuestion']);
+Route::get('question/get/{id}', [QuestionController::class, 'retrieveQuestion'])->name('question.retrieveQuestion');
 
 // Answer routes
 Route::get('answer/get', [AnswerController::class, 'get'])->name('answer.get');
@@ -55,9 +55,11 @@ Route::get('/', [ReflectionsTrajectoryController::class, 'showAll']);
 Route::post('/NewReflectionTrajectory', [ReflectionsTrajectoryController::class, 'store']);
 Route::get('/retrieveReflectionTrajectory/{id}', [ReflectionsTrajectoryController::class, 'retrieveReflectionTrajectory']);
 Route::get('/reflection/{id}',[]);
+Route::get('reflectionTrajectory/{id}/summary',[ReflectionsTrajectoryController::class,'showSummary'])->name('showSummary');
 Route::get('/reflectionTrajectory/{id}/{type}', [ReflectionsController::class, 'indexFromReflectiontrajectory']);
 Route::get('/reflectionTrajectory/{id}',[ReflectionsTrajectoryController::class,'showTrajectory']);
 Route::get('/retrieveAllReflectionTrajectories', [ReflectionsTrajectoryController::class, 'retrieveAll']);
+Route::get('/reflectionTrajectory/getQuestionWithAnswer', [ReflectionsController::class, 'getQuestionWithAnswer'])->name('reflectionTrajectory.getQuestionWithAnswer');
 
 Route::post('/answerMultipleChoice',[ReflectionsController::class, 'AnswerMultiQuestion']);
 Route::post('/answerOpenQuestion',[ReflectionsController::class, 'AnswerOpenQuestion']);
