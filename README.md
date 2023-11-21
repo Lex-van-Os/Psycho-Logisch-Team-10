@@ -107,6 +107,11 @@ flask run
 ### Using the application
 The Insights application should be ran alongside of the main project application. Through the use of both applications, AI related actions can be achieved.
 
+### Functionality
+Through the use of a Python API, seperate services are called that make use of primarily the Hugging Face Python library for AI related actions.
+
+The API is communicated with through a seperate controller inside of the Laravel application
+
 
 ## Development guide
 To ensure that developers follow the same development guidelines, a development guide has been defined.

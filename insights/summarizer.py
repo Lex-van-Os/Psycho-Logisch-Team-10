@@ -1,5 +1,6 @@
 from transformers import pipeline
 
+# Class responsible for summarization of reflection answers
 class QuestionSummarizer():
     def __init__(self, chunk_limit, summary_min_length, summary_max_length) -> None:
         self.chunk_limit = chunk_limit
@@ -10,11 +11,11 @@ class QuestionSummarizer():
         print("Summarizing answers")
         print()
 
-        joined_answers = self.join_input_reflections(question_answers)
-        tokenized_answers = self.add_chunkenizer_tokens(joined_answers)
-        answer_chunks = self.chunkenize_text(tokenized_answers)
-        summarized_chunks = self.summarize_chunked_answers(answer_chunks)
-        joined_summary = self.join_summarized_reflections(summarized_chunks)
+        joined_answers = self.join_input_reflections(question_answers) # Function for joining all answrs together
+        tokenized_answers = self.add_chunkenizer_tokens(joined_answers) # Function for adding program recognizable tokens to input, for later formatting
+        answer_chunks = self.chunkenize_text(tokenized_answers) # Formatting of given answers, for better consumption by AI pipeline
+        summarized_chunks = self.summarize_chunked_answers(answer_chunks) # Functionality for performing AI for summary generation
+        joined_summary = self.join_summarized_reflections(summarized_chunks) # Function for joining together summarized texts
 
         return joined_summary
     

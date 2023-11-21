@@ -3,6 +3,7 @@ from summarizer import QuestionSummarizer
 
 app = Flask(__name__)
 
+# Functionality for creating a summary of reflection question(s)
 @app.route('/psychoLogischInsights/summarizeReflection', methods=['POST'])
 def summarizeReflection():
     data = request.get_json()
@@ -16,20 +17,12 @@ def summarizeReflection():
     return jsonify(result)
 
 
+# Functionality to generate a shareable summary, with sensitive information filtered out (WIP)
 @app.route('/psychoLogischInsights/giveSharingSummary', methods=['POST'])
 def calculateBookRecommendations():
     data = request.get_json()
     
     result = {'prediction': 'Sample book recommendations'}
-    
-    return jsonify(result)
-
-
-@app.route('/insightsApi/popularBooks', methods=['POST'])
-def calculatePopularBooks():
-    data = request.get_json()
-    
-    result = {'prediction': 'Sample popular books'}
     
     return jsonify(result)
 
