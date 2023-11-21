@@ -16,5 +16,6 @@ class DatabaseSeeder extends Seeder
         // $this->call(OpenQuestionSeeder::class);
         $this->call(ScaleQuestionSeeder::class);
         $this->call(MultipleChoiceQuestionSeeder::class);
+        $this->call(AnsweredTrajectorySeeder::class);
     }
 }
