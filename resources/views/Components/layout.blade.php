@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-    <title> {{$title ?? 'App name'}}</title>
+    <title> {{$title ?? 'Psycho-logisch'}}</title>
     @vite('resources/css/app.css')
     <style>
         /* width */
@@ -26,6 +26,10 @@
     </style>
 </head>
 <body class="dark:bg-gray-700 bg-gray-100">
+@extends('/Components/navbar')
+@section('layout')
+    <p>Hello!</p>
+@endsection
 <div class="relative h-14 w-full dark:bg-gray-800 bg-gray-100">
 </div>
 {{$slot}}

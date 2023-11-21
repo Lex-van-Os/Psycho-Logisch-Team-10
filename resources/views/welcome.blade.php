@@ -4,16 +4,11 @@
     </x-slot:title>
     @if(isset($ref_trajs))
         @foreach($ref_trajs as $ref)
-            <x-card href="/reflectionTrajectory/{{$ref->id}}" title="{{$ref->title}}">
-            </x-card>
+            <x-card href="/reflectionTrajectory/{{$ref->id}}" title="{{$ref->title}}"></x-card>
         @endforeach
     @endif
     <button onclick="openModal()">
-        <h1
-            class="focus:outline-none px-4 bg-gray-900 p-3 ml-3 rounded-lg text-white hover:bg-gray-800 text-primary-500  mb-8 text-4xl font-extrabold tracking-tight lg:text-4xlxl dark:text-white text-gray-900"
-        >
-            +
-        </h1>
+        <h1 class="focus:outline-none px-4 bg-gray-900 p-3 ml-3 rounded-lg text-white hover:bg-gray-800 text-primary-500  mb-8 text-4xl font-extrabold tracking-tight lg:text-4xlxl dark:text-white text-gray-900">+</h1>
     </button>
     <div class="main-modal fixed w-full h-100 inset-0 z-50 overflow-hidden flex justify-center items-center animated fadeIn faster"
          style="background: rgba(0,0,0,.7);">
@@ -26,9 +21,7 @@
                     <div class="modal-close cursor-pointer z-50">
                         <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
                              viewBox="0 0 18 18">
-                            <path
-                                d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
-                            </path>
+                            <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
                         </svg>
                     </div>
                 </div>
@@ -37,8 +30,7 @@
                     @csrf
                     <label
                         for="title"
-                        class="mb-3 block text-base font-medium text-2xl"
-                    >
+                        class="mb-3 block text-base font-medium text-2xl">
                         title
                     </label>
                     <input
@@ -51,18 +43,14 @@
                     <div class="flex justify-end pt-2">
                         <button
                             class="focus:outline-none modal-close px-4 bg-gray-400 p-3 rounded-lg text-black hover:bg-gray-300">Cancel</button>
-                        <input type="submit"
-                            class="focus:outline-none px-4 bg-teal-500 p-3 ml-3 rounded-lg text-white hover:bg-teal-400">
+                        <input type="submit" class="focus:outline-none px-4 bg-teal-500 p-3 ml-3 rounded-lg text-white hover:bg-teal-400">
                     </div>
                 </form>
-
                 <!--Footer-->
-
             </div>
         </div>
     </div>
 </x-layout>
-
 <script>
     const modal = document.querySelector('.main-modal');
     const closeButton = document.querySelectorAll('.modal-close');
