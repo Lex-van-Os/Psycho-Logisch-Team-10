@@ -10,4 +10,9 @@ class reflection_question extends Model
         'question_id',
         'reflection_id',
     ];
+
+    public function question()
+    {
+        return $this->belongsTo(question::class);
+    }
 }
