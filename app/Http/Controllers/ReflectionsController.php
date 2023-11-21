@@ -54,6 +54,11 @@ class ReflectionsController extends Controller
         $reflection=Reflection::find($reflection_id);
         return reflection_trajectory::find($reflection->reflection_trajectory_id);
     }
+
+    /** A method to receive and store an open question answer
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function AnswerOpenQuestion(Request $request)
     {
         $request->validate([
@@ -77,6 +82,10 @@ class ReflectionsController extends Controller
         return redirect('/reflectionTrajectory/'.$this->getReflectionTrajectoryByReflectionID($reflection_id)->id.'/'.$reflection->reflection_type);
     }
 
+    /** Method to receive and store a multiple choice question answer
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application
+     */
     public function AnswerMultiQuestion(Request $request)
     {
         $reflection_id = $request->reflection_id;
@@ -98,6 +107,10 @@ class ReflectionsController extends Controller
         return redirect('/reflectionTrajectory/'.$ref_traj_id.'/'.$reflection->reflection_type);
     }
 
+    /**Method to get a question by type and index
+     * @param $type string past, present, future
+     * @param $questionIndex int index in vragen lijst.
+     */
     public function getQuestionByIndex($type,$questionIndex)
     {
         //Check if end of questionaire
@@ -112,9 +125,9 @@ class ReflectionsController extends Controller
      *          Start if not
      *      Continue reflection if already started
      * */
-    /**
-     * @param $id reflection_trajectory id
-     * @param $type reflection_type: past, present, future
+    /** Main function for starting/resuming reflections
+     * @param $id reflection_trajectory
+     * @param $type string past, present, future
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|void
      */
     public function indexFromReflectiontrajectory($id, $type)
@@ -148,9 +161,9 @@ class ReflectionsController extends Controller
         }
     }
 
-    /**Start reflection
+    /**Starts a created reflection using a reflection id and reflection type
      * @param $id /reflection id(not reflection_trajectory)
-     * @param $type /reflection_type
+     * @param $type /reflection_type (past, present, future)
      * @return void
      */
     public function StartReflection($id, $type)
@@ -180,6 +193,10 @@ class ReflectionsController extends Controller
         }else return view('reflectionQuestions', ['question'=>$qi, 'ref_id' => $id]);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse'
+     */
     public function getQuestionWithAnswer(Request $request)
     {
         try
