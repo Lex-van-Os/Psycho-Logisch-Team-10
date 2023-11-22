@@ -135,7 +135,7 @@ class ReflectionsController extends Controller
         $ref=Reflection::where([['reflection_trajectory_id','=',$id], ['reflection_type','=',$type]])->first();
         if(reflection_question::where('reflection_id','=',$ref->id)->count() == 0)
         {
-            $this->StartReflection($ref->id,$type);
+            return $this->StartReflection($ref->id,$type);
         }else{
             $progress = $ref->reflection_progression()->first();
 
@@ -184,13 +184,13 @@ class ReflectionsController extends Controller
             'reflection_id' => $id,
             'question_id' => $qid,
         ]);
-        reflection_progression::create(['reflection_id' => $id, 'progress' => 0]);
+        $reflection_progress = reflection_progression::create(['reflection_id' => $id, 'progress' => 0]);
         $qi=$this->getQuestionByIndex($type, 0);
         if($qi->type=='multiple_choice_question')
         {
             $questionOptions = $qi->question_options()->get();
-            return view('reflectionQuestions', ['question'=>$qi, 'questionOptions'=>$questionOptions, 'ref_id' => $id]);
-        }else return view('reflectionQuestions', ['question'=>$qi, 'ref_id' => $id]);
+            return view('reflectionQuestions', ['progression'=>$reflection_progress, 'questionCount'=>question::where('ref_type','=',$type)->count(),'question'=>$qi, 'questionOptions'=>$questionOptions, 'ref_id' => $id]);
+        }else return view('reflectionQuestions', ['progression'=>$reflection_progress, 'questionCount'=>question::where('ref_type','=',$type)->count(),'question'=>$qi, 'ref_id' => $id]);
     }
 
     /**
