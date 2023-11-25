@@ -2,7 +2,13 @@
     <x-slot:title>
         Home Page
     </x-slot:title>
-    @if(isset($ref_trajs))
+    <button onclick="window.location.href='/home'">
+        <h1 class="focus:outline-none px-4 bg-gray-900 p-3 ml-3 rounded-lg text-white hover:bg-gray-800 text-primary-500  mb-8 text-4xl font-extrabold tracking-tight lg:text-4xlxl dark:text-white text-gray-900">
+            Jouw Profiel
+        </h1>
+    </button>
+
+@if(isset($ref_trajs))
         @foreach($ref_trajs as $ref)
             <x-card href="/reflectionTrajectory/{{$ref->id}}" title="{{$ref->title}}">
             </x-card>

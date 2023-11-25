@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\question;
 use App\Models\question_option;
+use App\Models\reflection_question;
 use Illuminate\Http\Request;
 
 class QuestionController extends Controller
@@ -25,5 +26,19 @@ class QuestionController extends Controller
         $question = question::findOrFail($id);
         return $question;
     }
-    //
+    
+    public function generateReflectionQuestions($reflectionId, $referenceType)
+    {
+        $questionsToLink = null;
+
+        $questionsToLink = question::where('ref_type', $referenceType)->pluck('id');
+
+        foreach ($questionsToLink as $questionId) 
+        {
+            reflection_question::create([
+                'reflection_id' => $reflectionId,
+                'question_id' => $questionId,
+            ]);
+        }
+    }
 }

@@ -132,18 +132,18 @@ class ReflectionsController extends Controller
      */
     public function indexFromReflectiontrajectory($id, $type)
     {
-        $ref=Reflection::where([['reflection_trajectory_id','=',$id], ['reflection_type','=',$type]])->first();
-        if(reflection_question::where('reflection_id','=',$ref->id)->count() == 0)
+        $reflection = Reflection::where([['reflection_trajectory_id','=',$id], ['reflection_type','=',$type]])->first();
+        if(reflection_question::where('reflection_id','=',$reflection->id)->count() == 0)
         {
             return $this->StartReflection($ref->id,$type);
         }else{
-            $progress = $ref->reflection_progression()->first();
+            $progress = $reflection->reflection_progression()->first();
 
             if ($progress == null)
             {
                 $progress = new reflection_progression([
                     'progress' => 0,
-                    'reflection_id' => $ref->id
+                    'reflection_id' => $reflection->id
                 ]);
             }
 
@@ -151,13 +151,18 @@ class ReflectionsController extends Controller
             //check if the questionare is finished
             if(!isset($question))
             {
-                return view('reflectionSummary', ['questions' => question::where('ref_type','=',$type)->get()]);
+                $answerController = new AnswerController();
+                $userId = auth()->user()->id;
+
+                $summaryQuestions = $answerController->retrieveQuestionsWithAnswers($reflection->id, $userId);
+
+                return view('reflectionSummary', ['questions' => $summaryQuestions]);
             }
             if($question->type=='multiple_choice_question')
             {
                 $questionOptions = $question->question_options()->get();
-                return view('reflectionQuestions', ['progression'=>$progress, 'questionCount'=>question::where('ref_type','=',$type)->count(),'question'=>$question, 'questionOptions'=>$questionOptions, 'ref_id' => $ref->id]);
-            }else return view('reflectionQuestions', ['progression'=>$progress,'questionCount'=>question::where('ref_type','=',$type)->count(),'question'=>$question, 'ref_id' => $ref->id]);
+                return view('reflectionQuestions', ['progression'=>$progress, 'questionCount'=>question::where('ref_type','=',$type)->count(),'question'=>$question, 'questionOptions'=>$questionOptions, 'ref_id' => $reflection->id]);
+            }else return view('reflectionQuestions', ['progression'=>$progress,'questionCount'=>question::where('ref_type','=',$type)->count(),'question'=>$question, 'ref_id' => $reflection->id]);
         }
     }
 
