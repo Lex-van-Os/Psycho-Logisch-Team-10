@@ -8,9 +8,6 @@ class QuestionSummarizer():
         self.reflection_summary_max_length = summary_max_length
 
     def summarize_answers(self, question_answers):
-        print("Summarizing answers")
-        print()
-
         joined_answers = self.join_input_reflections(question_answers) # Function for joining all answrs together
         tokenized_answers = self.add_chunkenizer_tokens(joined_answers) # Function for adding program recognizable tokens to input, for later formatting
         answer_chunks = self.chunkenize_text(tokenized_answers) # Formatting of given answers, for better consumption by AI pipeline
@@ -59,9 +56,6 @@ class QuestionSummarizer():
         return return_text
 
     def join_summarized_reflections(self, summarized_chunks):
-        print("Joining summarized reflections")
-        print()
-
         joined_summaries = ' '.join([summ['summary_text'] for summ in summarized_chunks])
         
         return joined_summaries
@@ -84,8 +78,8 @@ class QuestionSummarizer():
     def format_data(self, unformatted_question_answers):
         formatted_items = []
 
-        for key in unformatted_question_answers:
-            question_answer_object = QuestionAnswer(question=unformatted_question_answers[key]['title'], answer=unformatted_question_answers[key]['value'])
+        for item in unformatted_question_answers:
+            question_answer_object = QuestionAnswer(question=item['questionTitle'], answer=item['answerText'])
             formatted_items.append(question_answer_object)
 
         return formatted_items

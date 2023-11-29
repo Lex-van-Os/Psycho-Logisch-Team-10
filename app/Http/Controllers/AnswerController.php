@@ -7,6 +7,7 @@ use App\Models\closed_answer;
 use App\Models\open_answer;
 use App\Models\question_option;
 use App\Models\reflection_question;
+use App\ViewModels\SummaryAnswerViewModel;
 use App\ViewModels\SummaryQuestionViewModel;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -150,7 +151,6 @@ class AnswerController extends Controller
 
         return $questions;
     }
-
     public function getSharedAnswers()
     {
         try 
