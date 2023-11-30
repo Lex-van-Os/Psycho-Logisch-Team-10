@@ -3,6 +3,7 @@
 use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\ClosedAnswerController;
 use App\Http\Controllers\HelperController;
+use App\Http\Controllers\InsightsController;
 use App\Http\Controllers\OpenAnswerController;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\ReflectionsController;
@@ -34,6 +35,7 @@ Route::get('question/get/{id}', [QuestionController::class, 'retrieveQuestion'])
 
 // Answer routes
 Route::get('answer/get', [AnswerController::class, 'get'])->name('answer.get');
+Route::get('answer/getSharedAnswers', [AnswerController::class, 'getSharedAnswers'])->name('answer.getSharedAnswers');
 Route::post('answer/store', [AnswerController::class, 'store'])->name('answer.store');
 Route::put('answer/update', [AnswerController::class, 'update'])->name('answer.update');
 
@@ -57,10 +59,14 @@ Route::post('/NewReflectionTrajectory', [ReflectionsTrajectoryController::class,
 Route::get('/retrieveReflectionTrajectory/{id}', [ReflectionsTrajectoryController::class, 'retrieveReflectionTrajectory']);
 Route::get('/reflection/{id}',[]);
 Route::get('reflectionTrajectory/{id}/summary',[ReflectionsTrajectoryController::class,'showSummary'])->name('showSummary');
+Route::get('/reflectionTrajectory/getQuestionWithAnswer', [ReflectionsController::class, 'getQuestionWithAnswer'])->name('reflectionTrajectory.getQuestionWithAnswer');
+Route::get('/reflectionTrajectory/getQuestionsWithAnswers', [ReflectionsController::class, 'getQuestionsWithAnswers'])->name('reflectionTrajectory.getQuestionsWithAnswers');
 Route::get('/reflectionTrajectory/{id}/{type}', [ReflectionsController::class, 'indexFromReflectiontrajectory']);
 Route::get('/reflectionTrajectory/{id}',[ReflectionsTrajectoryController::class,'showTrajectory']);
 Route::get('/retrieveAllReflectionTrajectories', [ReflectionsTrajectoryController::class, 'retrieveAll']);
-Route::get('/reflectionTrajectory/getQuestionWithAnswer', [ReflectionsController::class, 'getQuestionWithAnswer'])->name('reflectionTrajectory.getQuestionWithAnswer');
+
+// Routes for the Insights API (AI related actions)
+Route::post('insights/generateReflectionSummary', [InsightsController::class, 'generateReflectionSummary'])->name('insights.generateReflectionSummary');
 
 Route::post('/answerMultipleChoice',[ReflectionsController::class, 'AnswerMultiQuestion']);
 Route::post('/answerOpenQuestion',[ReflectionsController::class, 'AnswerOpenQuestion']);

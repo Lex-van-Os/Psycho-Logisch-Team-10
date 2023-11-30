@@ -24,8 +24,10 @@ class ReflectionsTrajectoryController extends Controller
 
         $answerController = new AnswerController();
         $questions = $answerController->retrieveQuestionsWithAnswers($id, $userId);
+        
+        $reflection_id = $id;
 
-        return view('reflectionSummary', compact('questions'));
+        return view('reflectionSummary', compact('questions', 'reflection_id'));
     }
 
     public function showTrajectory($id)
