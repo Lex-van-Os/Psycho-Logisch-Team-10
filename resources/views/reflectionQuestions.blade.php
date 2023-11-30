@@ -7,7 +7,7 @@
         @for($i = 0; $i < $questionCount; $i++)
             @method($counter+=1)
             <div class="flex items-center">
-                @if($i == $progression->progress)
+                @if($i <= $progression->progress)
                     <div class="w-9 h-9 flex items-center justify-center border-2 border-green-600 bg-green-300 rounded-2xl">
                         {{$i+1}}
                     </div>
