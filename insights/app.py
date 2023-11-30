@@ -34,7 +34,7 @@ db = SQLAlchemy(app)
 # Functionality for creating a summary of reflection question(s)
 @app.route('/psychoLogischInsights/summarizeReflection', methods=['POST'])
 
-def summarizeReflection():
+def summarize_reflection():
     try:
         data = request.get_json()
 
@@ -46,11 +46,8 @@ def summarizeReflection():
         formatted_data = question_summarizer.format_data(answerData)
         summarized_answer = question_summarizer.summarize_answers(formatted_data)
 
-        created_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-        new_summary = ReflectionSummaries(user_id=user_id, reflection_id=reflection_id, summary=summarized_answer, created_at=created_at)
-        db.session.add(new_summary)
-        db.session.commit()
+        # Insert the summary into the database
+        insert_reflection_summary(user_id, reflection_id, summarized_answer)
 
         return jsonify({'message': 'Summary inserted successfully'}), 200
     except Exception as e:
@@ -60,16 +57,32 @@ def summarizeReflection():
 
 # Functionality to generate a shareable summary, with sensitive information filtered out (WIP)
 @app.route('/psychoLogischInsights/giveSharingSummary', methods=['POST'])
-def calculateBookRecommendations():
+def give_sharing_summary():
     data = request.get_json()
 
-    result = {'prediction': 'Sample book recommendations'}
+    result = {'prediction': 'Foo'}
 
     return jsonify(result)
 
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
+def insert_reflection_summary(user_id, reflection_id, summary):
+    created_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    # Check if the user has already created a summary for the reflection
+    existing_summary = ReflectionSummaries.query.filter_by(user_id=user_id, reflection_id=reflection_id).first()
+
+    if existing_summary:
+        # Remove the existing summary from the database
+        db.session.delete(existing_summary)
+
+    # Insert the new summary into the database
+    new_summary = ReflectionSummaries(user_id=user_id, reflection_id=reflection_id, summary=summary, created_at=created_at)
+    db.session.add(new_summary)
+    db.session.commit()
 
 
 class ReflectionSummaries(db.Model):
