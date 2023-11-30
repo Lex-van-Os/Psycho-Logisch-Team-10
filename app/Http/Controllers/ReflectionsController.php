@@ -156,7 +156,7 @@ class ReflectionsController extends Controller
 
                 $summaryQuestions = $answerController->retrieveQuestionsWithAnswers($reflection->id, $userId);
 
-                return view('reflectionSummary', ['questions' => $summaryQuestions]);
+                return view('reflectionSummary', ['questions' => $summaryQuestions, 'reflection_id' => $reflection->id]);
             }
             if($question->type=='multiple_choice_question')
             {
@@ -206,6 +206,7 @@ class ReflectionsController extends Controller
     {
         try
         {
+            Log::info("getQuestionWithAnswer");
             $questionId = $request->query('questionId');
             $answerId = $request->query('answerId');
 
@@ -236,6 +237,51 @@ class ReflectionsController extends Controller
             {
                 return response()->json(['answer' => null]);
             }
+        }
+        catch (\Exception $e) {
+            // Handle other exceptions
+            Log::error('An error occurred: ' . $e->getMessage());
+            Log::error($e->getTrace());
+            return response()->json(['error' => 'An error occurred'], 500); // Internal Server Error
+        }
+    }
+
+    public function getQuestionAnswerValuePairs($userId, $reflectionId) 
+    {
+        $reflectionQuestions = reflection_question::with(['question.question_open_answers', 'question.question_closed_answers'])
+        ->where('reflection_id', $reflectionId)
+        ->get();
+
+        $questionAnswers = $reflectionQuestions->map(function ($reflectionQuestion) use ($userId) {
+            $question = $reflectionQuestion->question;
+            $answers = $question->type === 'open_question' ? $question->question_open_answers : $question->question_closed_answers;
+
+            $filteredAnswers = $answers->where('user_id', $userId);
+
+            $answer = $filteredAnswers->first();
+
+            if ($answer)
+            {
+                return new SummaryAnswerViewModel(
+                    $question->title,
+                    $answer->value,
+                );
+            }
+        });
+
+        return $questionAnswers;
+    }
+
+    public function getQuestionsWithAnswers(Request $request)
+    {
+        try 
+        {
+            $reflectionId = $request->query('reflectionId');
+            $userId = $request->query('userId');
+    
+            $questionAnswers = $this->getQuestionAnswerValuePairs($reflectionId, $userId);
+
+            return $questionAnswers;
         }
         catch (\Exception $e) {
             // Handle other exceptions
