@@ -23,6 +23,22 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        \Log::info('Showing user profile for user');
+
+        $summaries = refl
+
+        return view('home', ['summaries' => $summaries]);
+    }
+
+    /**
+     * Share the summary.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function shareSummary($id)
+    {
+        \Log::info("Sharing summary");
+        // Your code here
     }
 }

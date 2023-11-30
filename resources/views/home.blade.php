@@ -18,6 +18,12 @@
                 </div>
             </div>
         </div>
+
+        <div class="user-summaries">
+            @foreach ($summaries as $summary)
+                <x-profile-summary-card :summary="$summary" />
+            @endforeach
+        </div>
     </div>
     <button onclick="window.location.href='/'">
         <h1 class="focus:outline-none px-4 bg-gray-900 p-3 ml-3 rounded-lg text-white hover:bg-gray-800 text-primary-500  mb-8 text-4xl font-extrabold tracking-tight lg:text-4xlxl dark:text-white text-gray-900">
