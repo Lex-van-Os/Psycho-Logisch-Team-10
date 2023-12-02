@@ -16,7 +16,8 @@ class MultipleChoiceQuestionSeeder extends Seeder
     {
         $multipleChoiceQuestion = question::create([
             'title' => 'Wat is je ervaring met dit onderwerp?',
-            'type' => 'multiple_choice_question'
+            'type' => 'multiple_choice_question',
+            'instruction' => 'Kies een van de onderstaande opties',
         ]);
 
         question_option::create([
@@ -39,7 +40,8 @@ class MultipleChoiceQuestionSeeder extends Seeder
 
         $multipleChoiceQuestion = question::create([
             'title' => 'Hoeveel invloed hebben andere mensen op je ervaringen met dit onderwerp?',
-            'type' => 'multiple_choice_question'
+            'type' => 'multiple_choice_question',
+            'instruction' => 'Kies een van de onderstaande opties',
         ]);
 
         question_option::create([
@@ -62,7 +64,8 @@ class MultipleChoiceQuestionSeeder extends Seeder
 
         $multipleChoiceQuestion = question::create([
             'title' => 'Hoeveel waarde hecht je aan dit onderwerp?',
-            'type' => 'multiple_choice_question'
+            'type' => 'multiple_choice_question',
+            'instruction' => 'Hoe belangrijk is dit onderwerp voor jou? Kies een van de onderstaande opties',
         ]);
 
         question_option::create([
