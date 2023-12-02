@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
+<head>
+    @vite('resources/js/profile/userProfile.js')
+</head>
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -19,7 +23,7 @@
             </div>
         </div>
 
-        <div class="user-summaries">
+        <div class="user-summaries flex">
             @foreach ($summaries as $summary)
                 <x-profile-summary-card :summary="$summary" />
             @endforeach

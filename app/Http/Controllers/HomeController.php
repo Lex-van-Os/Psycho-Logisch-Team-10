@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\reflection_summary;
 use Illuminate\Http\Request;
+use App\Models\Reflection;
+use App\Models\ReflectionTrajectory;
+use App\ViewModels\SummaryCardViewModel;
 
 class HomeController extends Controller
 {
@@ -21,13 +25,31 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
+
     public function index()
     {
-        \Log::info('Showing user profile for user');
+        $summaries = reflection_summary::with(['reflection.reflection_trajectory'])
+            ->where('user_id', auth()->user()->id)
+            ->get();
 
-        $summaries = refl
+        $summaryCardViewModels = [];
 
-        return view('home', ['summaries' => $summaries]);
+        foreach ($summaries as $summary) {
+            $reflection = $summary->reflection;
+            $reflectionTrajectory = $reflection->reflection_trajectory;
+
+            $summaryCardViewModel = new SummaryCardViewModel();
+            $summaryCardViewModel->summaryId = $summary->id;
+            $summaryCardViewModel->title = $reflectionTrajectory->title;
+            $summaryCardViewModel->type = $reflection->reflection_type;
+            $summaryCardViewModel->text = $summary->summary;
+            $summaryCardViewModel->created_on = $summary->created_on;
+            $summaryCardViewModel->isShared = $summary->shared;
+
+            $summaryCardViewModels[] = $summaryCardViewModel;
+        }
+
+        return view('home', ['summaries' => $summaryCardViewModels]);
     }
 
     /**
@@ -36,9 +58,25 @@ class HomeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function shareSummary($id)
+    public function shareSummary(Request $request)
     {
-        \Log::info("Sharing summary");
-        // Your code here
+        try {
+            \Log::info('Sharing summary');
+            $summaryId = $request->input('summaryId');
+
+            $reflectionSummary = reflection_summary::find($summaryId);
+
+            if (!$reflectionSummary) {
+                return response()->json(['message' => 'Summary not found'], 404);
+            }
+
+            $isShared = $reflectionSummary->shared;
+            $reflectionSummary->shared = !$isShared;
+            $reflectionSummary->save();
+
+            return response()->json(['message' => 'Summary shared successfully', 'shared' => !$isShared]);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'An error occurred while sharing the summary'], 500);
+        }
     }
 }
