@@ -18,6 +18,11 @@
     background: #555;
 }
 .modal-container{
-    display: flex;
+    display: inline-grid;
+    width: 80rem;
 
+}
+.ref-card{
+    width: 25%;
+    height: 10rem;
 }

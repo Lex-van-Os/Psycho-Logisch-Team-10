@@ -1,6 +1,9 @@
 @extends('layouts.app')
-
+@push('css')
+    <link rel="stylesheet" href="/resources/css/layout-style.css">
+@endpush
 @section('content')
+    <p>dit is tekst</p>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">

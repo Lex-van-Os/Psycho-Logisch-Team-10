@@ -5,7 +5,7 @@
     <div class="modal-container">
     @if(isset($ref_trajs))
         @foreach($ref_trajs as $ref)
-            <x-card href="/reflectionTrajectory/{{$ref->id}}" title="{{$ref->title}}"></x-card>
+            <x-card class="ref-card" href="/reflectionTrajectory/{{$ref->id}}" title="{{$ref->title}}"></x-card>
         @endforeach
     @endif
     </div>
