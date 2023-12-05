@@ -1,5 +1,5 @@
 import axios from "axios";
-import Toastify from "toastify-js";
+import { displayErrorToast, displaySuccessToast } from "./shared/toaster";
 
 document.getElementById("summary-btn").addEventListener("click", function () {
     generateReflectionSummary(getReflectionId());
@@ -18,28 +18,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-function displaySuccessSummary() {
-    Toastify({
-        text: "Samenvatting wordt gegenereerd",
-        duration: 3000,
-        gravity: "top",
-        position: "right",
-        className: "success-toast",
-        onClick: function () {}, // Callback after click
-    }).showToast();
-}
-
-function displayErrorSummary() {
-    Toastify({
-        text: "Er is iets fout gegaan met het genereren van de samenvatting",
-        duration: 3000,
-        gravity: "top",
-        position: "right",
-        className: "fail-toast",
-        onClick: function () {}, // Callback after click
-    }).showToast();
-}
-
 function getReflectionId() {
     let reflectionId = document.getElementById("reflection-id").value;
 
@@ -49,7 +27,7 @@ function getReflectionId() {
 async function generateReflectionSummary(reflectionId) {
     try {
         console.log("Foo");
-        displaySuccessSummary();
+        displaySuccessToast("Samenvatting wordt gegenereerd");
 
         const response = await axios.post(
             `/insights/generateReflectionSummary?`,
@@ -60,15 +38,15 @@ async function generateReflectionSummary(reflectionId) {
 
         // 'fire and forget' functionaliteit werkt niet zonder een framework als RabbitMQ. Vandaar standaard succes message
         // if (response.data >= 200 && response.data < 300) {
-        //     displaySuccessSummary();
+        //     displaySuccessToast("Samenvatting wordt gegenereerd");
         // } else {
         //     console.error('Request failed with status code:', response.data);
-        //     displayErrorSummary();
+        //     displayErrorToast("Er is iets fout gegaan met het genereren van de samenvatting");
         // }
     } catch (error) {
         console.log("Failed sending request");
         console.log(error.response);
-        displayErrorSummary();
+        displayErrorToast("Er is iets fout gegaan met het genereren van de samenvatting");
         throw error; // Rethrow the error to handle it in the calling function
     }
 }

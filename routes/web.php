@@ -28,6 +28,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::post('/home/shareSummary', [App\Http\Controllers\HomeController::class, 'shareSummary'])->name('home.shareSummary');
 
 // Question routes
 Route::get('question/get/{id}', [QuestionController::class, 'retrieveQuestion'])->name('question.retrieveQuestion');
