@@ -74,18 +74,3 @@ class QuestionSummarizer():
         summarized_text = summary[0]['summary_text']
 
         return summarized_text
-
-    def format_data(self, unformatted_question_answers):
-        formatted_items = []
-
-        for item in unformatted_question_answers:
-            question_answer_object = QuestionAnswer(question=item['questionTitle'], answer=item['answerText'])
-            formatted_items.append(question_answer_object)
-
-        return formatted_items
-    
-
-class QuestionAnswer():
-    def __init__(self, question, answer) -> None:
-        self.question = question
-        self.answer = answer

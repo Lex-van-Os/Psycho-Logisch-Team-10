@@ -2,6 +2,9 @@ from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 import psycopg2
 from summarizer import QuestionSummarizer
+from sentimentizer import AnswerSentimentizer
+from translator import TextTranslator
+from question_formatter import QuestionFormatter
 import os
 from dotenv import load_dotenv
 from datetime import datetime
@@ -42,8 +45,9 @@ def summarize_reflection():
         user_id = data['user_id']
         reflection_id = data['reflection_id']
 
+        question_formatter = QuestionFormatter()
         question_summarizer = QuestionSummarizer(chunk_limit=400, summary_min_length=30, summary_max_length=120)
-        formatted_data = question_summarizer.format_data(answerData)
+        formatted_data = question_formatter.format_question_data(answerData)
         summarized_answer = question_summarizer.summarize_answers(formatted_data)
 
         # Insert the summary into the database
@@ -63,6 +67,31 @@ def give_sharing_summary():
     result = {'prediction': 'Foo'}
 
     return jsonify(result)
+
+@app.route('/psychoLogischInsights/getAnswerSentiment', methods=['POST'])
+def get_answer_sentiment():
+    try:
+        data = request.get_json()
+
+        answerData = data['answer']
+        user_id = data['user_id']
+        reflection_id = data['reflection_id']
+
+        question_formatter = QuestionFormatter()
+        question_sentimentizer = AnswerSentimentizer()
+        text_translator = TextTranslator()
+
+        formatted_data = question_formatter.format_single_question_object(answerData)
+        translated_text = text_translator.translate_text(formatted_data.answer, 'nl_NL')
+        answer_sentiment = question_sentimentizer.get_answer_sentiment(translated_text)
+
+        # Insert the summary into the database
+        # insert_reflection_summary(user_id, reflection_id, summarized_answer)
+
+        return jsonify({'message': 'Sentiment generated successfully'}), 200
+    except Exception as e:
+        print(e)
+        return jsonify({'error': str(e)}), 500
 
 
 if __name__ == '__main__':
