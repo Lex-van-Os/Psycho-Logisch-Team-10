@@ -10,6 +10,9 @@ class InsightsApiService
     public function generateSummary($answers, $reflectionId)
     {
         try {
+            Log::info($answers);
+            Log::info($reflectionId);
+            Log::info(auth()->user()->id);
             Http::post('http://127.0.0.1:5000/psychoLogischInsights/summarizeReflection', [
                 'answers' => $answers,
                 'reflection_id' => $reflectionId,
