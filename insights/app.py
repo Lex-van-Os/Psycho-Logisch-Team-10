@@ -16,7 +16,7 @@ db_username = os.getenv('DB_USERNAME')
 db_password = os.getenv('DB_PASSWORD')
 db_host = os.getenv('DB_HOST')
 db_name = os.getenv('DB_DATABASE')
-db_type = os.getenv('DB_TYPE')  # Environment variable to determine the database type
+db_type = os.getenv('DB_CONNECTION')  # Environment variable to determine the database type
 
 # Set the SQLAlchemy database URI based on the database type
 if db_type == 'postgres':
@@ -30,7 +30,11 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
-
+# Test Web Server Response
+@app.route('/testWeb', methods=['GET'])
+def hello_world():
+    return "<p>Hello, World!</p>"
+    
 # Functionality for creating a summary of reflection question(s)
 @app.route('/psychoLogischInsights/summarizeReflection', methods=['POST'])
 
@@ -66,7 +70,7 @@ def give_sharing_summary():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host="0.0.0.0",debug=True)
 
 
 def insert_reflection_summary(user_id, reflection_id, summary):

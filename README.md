@@ -174,7 +174,7 @@ docker build -t insights-app .
 Running the Docker container (Similar to starting a development server):
 
 ```bash
-docker run -p 5000:80 insights-app
+docker run -p 5000:5000 insights-app
 ```
 
 Stopping the Docker container (Similar to stopping a development server):
