@@ -16,17 +16,20 @@ class ScaleQuestionSeeder extends Seeder
         
         question::create([
             'title' => 'Op een schaal van 1 - 10, wat is je ervaring met dit onderwerp? (0 = negatief, 10 = positief)',
-            'type' => 'scale_question'
+            'type' => 'scale_question',
+            'instruction' => ''
         ]);
 
         question::create([
             'title' => 'Op een schaal van 1 - 10, Hoeveel stress ervaar je met dit onderwerp? (0 = negatief, 10 = positief)',
-            'type' => 'scale_question'
+            'type' => 'scale_question',
+            'instruction' => ''
         ]);
 
         question::create([
             'title' => 'Op een schaal van 1 - 10, hoeveel ervaring heb je met dit onderwerpn? (0 = weinig, 10 = veel)',
-            'type' => 'scale_question'
+            'type' => 'scale_question',
+            'instruction' => ''
         ]);
 
     }

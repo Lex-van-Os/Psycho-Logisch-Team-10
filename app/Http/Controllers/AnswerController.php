@@ -7,6 +7,7 @@ use App\Models\closed_answer;
 use App\Models\open_answer;
 use App\Models\question_option;
 use App\Models\reflection_question;
+use App\ViewModels\SummaryAnswerViewModel;
 use App\ViewModels\SummaryQuestionViewModel;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -149,5 +150,21 @@ class AnswerController extends Controller
         });
 
         return $questions;
+    }
+    public function getSharedAnswers()
+    {
+        try 
+        {
+            $sharedOpenAnswers = open_answer::where('shared', true)
+            ->select('id', 'value')
+            ->get();
+
+            return response()->json($sharedOpenAnswers);
+        } 
+        catch (\Exception $e) {
+            // Handle other exceptions
+            Log::error('An error occurred: ' . $e->getMessage());
+            return response()->json(['error' => 'An error occurred'], 500); // Internal Server Error
+        } 
     }
 }

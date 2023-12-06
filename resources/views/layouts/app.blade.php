@@ -77,4 +77,25 @@
         </main>
     </div>
 </body>
+
+{{-- Styling for shared toaster functionality --}}
+<style>
+    .success-toast {
+        background: #3c84fa;
+        background-color: #3c84fa;
+        width: 100%;
+        color: white;
+        font-size: 20px;
+        text-align: center;
+    }
+
+    .fail-toast {
+        background: rgb(197, 67, 67);
+        background-color: rgb(197, 67, 67);
+        width: 100%;
+        color: white;
+        font-size: 20px;
+        text-align: center;
+    }
+</style>
 </html>
