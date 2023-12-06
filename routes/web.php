@@ -63,3 +63,6 @@ Route::get('/reflectionTrajectory/getQuestionWithAnswer', [ReflectionsController
 
 Route::post('/answerMultipleChoice',[ReflectionsController::class, 'AnswerMultiQuestion']);
 Route::post('/answerOpenQuestion',[ReflectionsController::class, 'AnswerOpenQuestion']);
+
+Route::get('/previousQuestion/{refid}', [ReflectionsController::class, 'previousQuestion']);
+Route::get('/nextQuestion/{refid}', [ReflectionsController::class, 'nextQuestion']);
