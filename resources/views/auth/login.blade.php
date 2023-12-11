@@ -1,15 +1,14 @@
-@extends('layouts.app')
+@extends('Components.layout')
+
 @push('css')
     <link rel="stylesheet" href="/resources/css/layout-style.css">
 @endpush
 @section('content')
-    <p>dit is tekst</p>
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
-
+<div class="flex-container">
+    <div class="row">
+        <div class="col-auto">
+            <div class="card flex flex-col justify-center items-center w-full">
+                <div class="card-header text-4xl">{{ __('Login') }}</div>
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
@@ -56,12 +55,12 @@
 
                         <div class="row mb-0">
                             <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn bg-green-300 border-8" id="login-button">
                                     {{ __('Login') }}
                                 </button>
 
                                 @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
+                                    <a class="btn btn-link btn bg-blue-300 border-8" href="{{ route('password.request') }}">
                                         {{ __('Forgot Your Password?') }}
                                     </a>
                                 @endif

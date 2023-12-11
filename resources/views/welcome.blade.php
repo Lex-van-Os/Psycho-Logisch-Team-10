@@ -3,11 +3,11 @@
         Home Page
     </x-slot:title>
     <div class="modal-container">
-    @if(isset($ref_trajs))
-        @foreach($ref_trajs as $ref)
-            <x-card class="ref-card" href="/reflectionTrajectory/{{$ref->id}}" title="{{$ref->title}}"></x-card>
-        @endforeach
-    @endif
+        @if(isset($ref_trajs))
+            @foreach($ref_trajs as $ref)
+                <x-card class="ref-card" href="/reflectionTrajectory/{{$ref->id}}" title="{{$ref->title}}"></x-card>
+            @endforeach
+        @endif
     </div>
     <button onclick="openModal()">
         <h1 class="focus:outline-none px-4 bg-gray-900 p-3 ml-3 rounded-lg text-white hover:bg-gray-800 text-primary-500  mb-8 text-4xl font-extrabold tracking-tight lg:text-4xlxl dark:text-white text-gray-900">+</h1>
@@ -82,4 +82,3 @@
         }
     }
 </script>
-

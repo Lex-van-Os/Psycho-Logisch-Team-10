@@ -11,6 +11,5 @@
 <body class="dark:bg-gray-700 bg-gray-100">
 @include('Components.navbar')
 @yield('content')
-{{$slot}}
 </body>
 </html>
