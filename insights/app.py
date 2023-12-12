@@ -16,7 +16,7 @@ db_username = os.getenv('DB_USERNAME')
 db_password = os.getenv('DB_PASSWORD')
 db_host = os.getenv('DB_HOST')
 db_name = os.getenv('DB_DATABASE')
-db_type = os.getenv('DB_TYPE')  # Environment variable to determine the database type
+db_type = os.getenv('DB_CONNECTION')  # Environment variable to determine the database type
 
 # Set the SQLAlchemy database URI based on the database type
 if db_type == 'postgres':
@@ -30,7 +30,34 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
+class ReflectionSummaries(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer)
+    reflection_id = db.Column(db.Integer)
+    summary = db.Column(db.Text)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
+def insert_reflection_summary(user_id, reflection_id, summary):
+    created_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    # Check if the user has already created a summary for the reflection
+    existing_summary = ReflectionSummaries.query.filter_by(user_id=user_id, reflection_id=reflection_id).first()
+
+    if existing_summary:
+        # Remove the existing summary from the database
+        db.session.delete(existing_summary)
+
+    # Insert the new summary into the database
+    new_summary = ReflectionSummaries(user_id=user_id, reflection_id=reflection_id, summary=summary, created_at=created_at)
+    db.session.add(new_summary)
+    db.session.commit()
+
+# Test Web Server Response
+@app.route('/testWeb', methods=['GET'])
+def hello_world():
+    return "<p>Hello, World!</p>"
+    
 # Functionality for creating a summary of reflection question(s)
 @app.route('/psychoLogischInsights/summarizeReflection', methods=['POST'])
 
@@ -66,29 +93,4 @@ def give_sharing_summary():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
-
-
-def insert_reflection_summary(user_id, reflection_id, summary):
-    created_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-    # Check if the user has already created a summary for the reflection
-    existing_summary = ReflectionSummaries.query.filter_by(user_id=user_id, reflection_id=reflection_id).first()
-
-    if existing_summary:
-        # Remove the existing summary from the database
-        db.session.delete(existing_summary)
-
-    # Insert the new summary into the database
-    new_summary = ReflectionSummaries(user_id=user_id, reflection_id=reflection_id, summary=summary, created_at=created_at)
-    db.session.add(new_summary)
-    db.session.commit()
-
-
-class ReflectionSummaries(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer)
-    reflection_id = db.Column(db.Integer)
-    summary = db.Column(db.Text)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    app.run(host="0.0.0.0",debug=True)
