@@ -1,7 +1,7 @@
 @extends('Components.layout')
 @section('content')
 <div class="flex-container flex flex-col justify-center items-center w-full h-75">
-    <div class="row justify-content-center">
+    <div class="row justify-content-center text-white">
             <div class="card">
                 <div class="card-header">{{ __('Dashboard') }}</div>
 
