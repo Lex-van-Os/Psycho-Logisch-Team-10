@@ -6,7 +6,7 @@
         @for($i = 0; $i < $questionCount; $i++)
             @method($counter+=1)
             <div class="flex items-center">
-                @if($i == $progression->progress)
+                @if($i <= $progression->progress)
                     <div class="w-9 h-9 flex items-center justify-center border-2 border-green-600 bg-green-300 rounded-2xl">
                         {{$i+1}}
                     </div>
@@ -22,6 +22,15 @@
 
             </div>
         @endfor
+    </div>
+    <div>
+        <a role="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" href="/previousQuestion/{{$ref_id}}">
+            Previous
+        </a>
+
+        <a role="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" href="/nextQuestion/{{$ref_id}}">
+            Next
+        </a>
     </div>
     <div class="flex flex-col items-center">
         <div class="mb-10 text-white">

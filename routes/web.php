@@ -3,6 +3,7 @@
 use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\ClosedAnswerController;
 use App\Http\Controllers\HelperController;
+use App\Http\Controllers\InsightsController;
 use App\Http\Controllers\OpenAnswerController;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\ReflectionsController;
@@ -20,19 +21,21 @@ use \App\Http\Controllers\QuestionController;
 |
 */
 
-//Check if user is logged in, then show them their reflections if they are.
-Route::get('/', [ReflectionsTrajectoryController::class,'showAll']);
-
+Route::get('/', function () {
+    return view('welcome');
+});
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::post('/home/shareSummary', [App\Http\Controllers\HomeController::class, 'shareSummary'])->name('home.shareSummary');
 
 // Question routes
 Route::get('question/get/{id}', [QuestionController::class, 'retrieveQuestion'])->name('question.retrieveQuestion');
 
 // Answer routes
 Route::get('answer/get', [AnswerController::class, 'get'])->name('answer.get');
+Route::get('answer/getSharedAnswers', [AnswerController::class, 'getSharedAnswers'])->name('answer.getSharedAnswers');
 Route::post('answer/store', [AnswerController::class, 'store'])->name('answer.store');
 Route::put('answer/update', [AnswerController::class, 'update'])->name('answer.update');
 
@@ -51,14 +54,22 @@ Route::post('closedAnswer/store', [ClosedAnswerController::class, 'store'])->nam
 // Misc
 Route::get('/getCsrfToken', [HelperController::class, 'getCsrfToken'])->name('getCsrfToken');
 
+Route::get('/', [ReflectionsTrajectoryController::class, 'showAll']);
 Route::post('/NewReflectionTrajectory', [ReflectionsTrajectoryController::class, 'store']);
 Route::get('/retrieveReflectionTrajectory/{id}', [ReflectionsTrajectoryController::class, 'retrieveReflectionTrajectory']);
 Route::get('/reflection/{id}',[]);
 Route::get('reflectionTrajectory/{id}/summary',[ReflectionsTrajectoryController::class,'showSummary'])->name('showSummary');
+Route::get('/reflectionTrajectory/getQuestionWithAnswer', [ReflectionsController::class, 'getQuestionWithAnswer'])->name('reflectionTrajectory.getQuestionWithAnswer');
+Route::get('/reflectionTrajectory/getQuestionsWithAnswers', [ReflectionsController::class, 'getQuestionsWithAnswers'])->name('reflectionTrajectory.getQuestionsWithAnswers');
 Route::get('/reflectionTrajectory/{id}/{type}', [ReflectionsController::class, 'indexFromReflectiontrajectory']);
 Route::get('/reflectionTrajectory/{id}',[ReflectionsTrajectoryController::class,'showTrajectory']);
 Route::get('/retrieveAllReflectionTrajectories', [ReflectionsTrajectoryController::class, 'retrieveAll']);
-Route::get('/reflectionTrajectory/getQuestionWithAnswer', [ReflectionsController::class, 'getQuestionWithAnswer'])->name('reflectionTrajectory.getQuestionWithAnswer');
+
+// Routes for the Insights API (AI related actions)
+Route::post('insights/generateReflectionSummary', [InsightsController::class, 'generateReflectionSummary'])->name('insights.generateReflectionSummary');
 
 Route::post('/answerMultipleChoice',[ReflectionsController::class, 'AnswerMultiQuestion']);
 Route::post('/answerOpenQuestion',[ReflectionsController::class, 'AnswerOpenQuestion']);
+
+Route::get('/previousQuestion/{refid}', [ReflectionsController::class, 'previousQuestion']);
+Route::get('/nextQuestion/{refid}', [ReflectionsController::class, 'nextQuestion']);

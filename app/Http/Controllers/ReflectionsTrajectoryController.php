@@ -19,41 +19,15 @@ class ReflectionsTrajectoryController extends Controller
 
     public function showSummary($id)
     {
-        $reflectionQuestions = reflection_question::with(['question.question_open_answers', 'question.question_closed_answers'])
-            ->where('reflection_id', $id)
-            ->get();
-        
         $user = auth()->user();
+        $userId = $user->id;
 
-        // $userId = $user->id;
-        $userId = 1; // Demo value till login functionality is made
+        $answerController = new AnswerController();
+        $questions = $answerController->retrieveQuestionsWithAnswers($id, $userId);
+        
+        $reflection_id = $id;
 
-        $questions = $reflectionQuestions->map(function ($reflectionQuestion) use ($userId) {
-            $question = $reflectionQuestion->question;
-            $answers = $question->type === 'open_question' ? $question->question_open_answers : $question->question_closed_answers;
-
-            $filteredAnswers = $answers->where('user_id', $userId);
-
-            $answer = $filteredAnswers->first();
-            $answerId = null;
-
-            if ($answer) 
-            {
-                $answerId = $answer->id;
-            }
-            else 
-            {
-                $answerId = 0;
-            }
-
-            return new SummaryQuestionViewModel(
-                $question->id,
-                $answerId,
-                $question->title,
-            );
-        });
-
-        return view('reflectionSummary', compact('questions'));
+        return view('reflectionSummary', compact('questions', 'reflection_id'));
     }
 
     public function showTrajectory($id)
