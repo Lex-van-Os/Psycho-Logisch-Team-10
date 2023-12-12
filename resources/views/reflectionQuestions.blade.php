@@ -24,6 +24,15 @@
             </div>
         @endfor
     </div>
+    <div>
+        <a role="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" href="/previousQuestion/{{$ref_id}}">
+            Previous
+        </a>
+
+        <a role="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" href="/nextQuestion/{{$ref_id}}">
+            Next
+        </a>
+    </div>
     <div class="flex flex-col items-center">
         <div class="mb-10 text-white">
             <h1
