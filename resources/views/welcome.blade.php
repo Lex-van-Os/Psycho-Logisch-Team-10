@@ -1,7 +1,11 @@
-<x-layout>
+@include('Components.layout')
     <x-slot:title>
         Home Page
     </x-slot:title>
+    <div class="flex-container flex flex-col justify-center items-center w-full">
+        <h1 class="text-5xl text-white">Welkom bij Psycho-logisch!</h1>
+        <p class="text-white">Op deze pagina zie je jouw reflecties. Deze reflecties staan hier om jouw te helpen met keuzestress. Wij willen ervoor zorgen dat je nadenkt over je verleden, heden en toekomst!</p>
+
     <button onclick="window.location.href='/home'">
         <h1 class="focus:outline-none px-4 bg-gray-900 p-3 ml-3 rounded-lg text-white hover:bg-gray-800 text-primary-500  mb-8 text-4xl font-extrabold tracking-tight lg:text-4xlxl dark:text-white text-gray-900">
             Jouw Profiel
@@ -9,11 +13,13 @@
     </button>
 
 @if(isset($ref_trajs))
+
         @foreach($ref_trajs as $ref)
             <x-card href="/reflectionTrajectory/{{$ref->id}}" title="{{$ref->title}}">
             </x-card>
         @endforeach
     @endif
+    </div>
     <button onclick="openModal()">
         <h1
             class="focus:outline-none px-4 bg-gray-900 p-3 ml-3 rounded-lg text-white hover:bg-gray-800 text-primary-500  mb-8 text-4xl font-extrabold tracking-tight lg:text-4xlxl dark:text-white text-gray-900"
@@ -58,7 +64,7 @@
                         <button
                             class="focus:outline-none modal-close px-4 bg-gray-400 p-3 rounded-lg text-black hover:bg-gray-300">Cancel</button>
                         <input type="submit"
-                            class="focus:outline-none px-4 bg-teal-500 p-3 ml-3 rounded-lg text-white hover:bg-teal-400">
+                               class="focus:outline-none px-4 bg-teal-500 p-3 ml-3 rounded-lg text-white hover:bg-teal-400">
                     </div>
                 </form>
 
@@ -67,7 +73,6 @@
             </div>
         </div>
     </div>
-</x-layout>
 
 <script>
     const modal = document.querySelector('.main-modal');

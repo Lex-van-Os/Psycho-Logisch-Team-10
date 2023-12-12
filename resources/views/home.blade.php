@@ -1,5 +1,4 @@
-@extends('layouts.app')
-
+@extends('Components.layout')
 @section('content')
 <head>
     @vite('resources/js/profile/userProfile.js')

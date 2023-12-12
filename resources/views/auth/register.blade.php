@@ -1,11 +1,10 @@
-@extends('layouts.app')
-
+@extends('Components.layout')
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+<div class="flex-container">
+    <div class="row justify-content-center flex flex-col justify-center items-center w-full h-auto border-top">
+        <div class="col-md-8 text-white">
             <div class="card">
-                <div class="card-header">{{ __('Register') }}</div>
+                <div class="text-3xl card-header">{{ __('Register') }}</div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('register') }}">
@@ -63,7 +62,7 @@
 
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="text-black btn bg-green-300 border-8">
                                     {{ __('Register') }}
                                 </button>
                             </div>
