@@ -176,12 +176,11 @@ class ReflectionsController extends Controller
 
             $question = $this->getQuestionByIndex($type, $progress->progress);
             //check if the questionare is finished
-            if (!isset($question)) {
+            if (!isset($question) || $progress->progress > question::where('ref_type', '=', $type)->count()) {
                 $answerController = new AnswerController();
                 $userId = auth()->user()->id;
 
                 $summaryQuestions = $answerController->retrieveQuestionsWithAnswers($reflection->id, $userId);
-
                 return view('reflectionSummary', ['questions' => $summaryQuestions, 'reflection_id' => $reflection->id]);
             }
             if ($question->type == 'multiple_choice_question') {
@@ -199,20 +198,11 @@ class ReflectionsController extends Controller
     public function StartReflection($id, $type)
     {
         $qid = 0;
-        switch ($type) {
-            case 'past':
-                $qid = 2;
-                break;
-            case 'present':
-                $qid = 38;
-                break;
-            case 'future':
-                $qid = 44;
-                break;
-        }
+        $qid = question::where('ref_type', '=', $type)->first();
+
         reflection_question::create([
             'reflection_id' => $id,
-            'question_id' => $qid,
+            'question_id' => $qid->id,
         ]);
         $reflection_progress = reflection_progression::create(['reflection_id' => $id, 'progress' => 0]);
         $qi = $this->getQuestionByIndex($type, 0);
@@ -263,7 +253,7 @@ class ReflectionsController extends Controller
         }
     }
 
-    public function getQuestionAnswerValuePairs($userId, $reflectionId) 
+    public function getQuestionAnswerValuePairs($userId, $reflectionId)
     {
         $reflectionQuestions = reflection_question::with(['question.question_open_answers', 'question.question_closed_answers'])
         ->where('reflection_id', $reflectionId)
@@ -291,11 +281,11 @@ class ReflectionsController extends Controller
 
     public function getQuestionsWithAnswers(Request $request)
     {
-        try 
+        try
         {
             $reflectionId = $request->query('reflectionId');
             $userId = $request->query('userId');
-    
+
             $questionAnswers = $this->getQuestionAnswerValuePairs($reflectionId, $userId);
 
             return $questionAnswers;
