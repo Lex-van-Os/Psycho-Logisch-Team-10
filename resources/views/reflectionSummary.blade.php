@@ -1,4 +1,5 @@
-<x-layout>
+@extends('Components.layout')
+@section('content')
     <head>
         @vite('resources/js/reflectionSummary.js')
     </head>
@@ -62,4 +63,4 @@
         text-align: center;
     }
 </style>
-</x-layout>
+@endsection
