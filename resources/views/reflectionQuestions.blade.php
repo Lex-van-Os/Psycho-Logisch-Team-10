@@ -32,8 +32,8 @@
         <div class="m-2 flex justify-between">
 
             <div class="button-wrapper flex-none flex items-center">
-                <a role="button" id="next-btn" class="align-middle float-right bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center" href="/previousQuestion/{{$ref_id}}">
-                    Next
+                <a role="button" id="previous-btn" class="align-middle float-right bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center" href="/previousQuestion/{{$ref_id}}">
+                    Previous
                 </a>
             </div>
 
