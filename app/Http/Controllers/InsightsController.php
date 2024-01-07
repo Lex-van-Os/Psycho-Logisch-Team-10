@@ -16,7 +16,7 @@ class InsightsController extends Controller
 
     public function generateReflectionSummary(Request $request)
     {
-        try 
+        try
         {
             Log::info("generateReflectionSummary");
             $reflectionId = $request->input('reflectionId');
@@ -27,18 +27,26 @@ class InsightsController extends Controller
 
             $answers = $reflectionController->getQuestionAnswerValuePairs($userId, $reflectionId);
 
-            if ($answers) 
+            if ($answers)
             {
                 Log::info($answers);
 
-                dispatch(function () use ($answers, $reflectionId) {
+                /*dispatch(function () use ($answers, $reflectionId) {
                     $insightsService = new InsightsApiService();
                     $insightsService->generateSummary($answers, $reflectionId);
-                })->afterResponse();
+                })->afterResponse();*/
 
+                try {
+                    dispatch(function () use ($answers, $reflectionId) {
+                        $insightsService = new InsightsApiService();
+                        $insightsService->generateSummary($answers, $reflectionId);
+                    });
+                }catch (Exception $e){
+                    return response()->json(['error' => 'Internal Server Error'], 500);
+                }
                 return response()->json(200);
             }
-            else 
+            else
             {
                 return response()->json(['error' => 'No answers could be found'], 404);
             }
@@ -52,6 +60,6 @@ class InsightsController extends Controller
 
     public function formatSummaryPostData($answers)
     {
-        
+
     }
 }

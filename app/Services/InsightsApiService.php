@@ -20,7 +20,7 @@ class InsightsApiService
             ])->background();
         } catch (\Exception $exception) {
             logger()->error('Error while making external API request: ' . $exception->getMessage());
-            return response()->json(['error' => 'Internal Server Error'], 500);
+            return $exception;
         }
     }
 }
