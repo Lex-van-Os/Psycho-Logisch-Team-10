@@ -24,7 +24,7 @@
 
         <div class="user-summaries flex">
             @foreach ($summaries as $summary)
-                <x-profile-summary-card :summary="$summary" />
+                @include('Components.profile-summary-card')
             @endforeach
         </div>
     </div>

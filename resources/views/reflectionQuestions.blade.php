@@ -1,6 +1,7 @@
 @include('Components.layout')
 <?php
-    $counter = 0
+    $counter = 0;
+    $toId = $questionCount - $progression->progress;
     ?>
 <div class="flex flex-col mt-10 mb-16 items-center">
     <div class="flex items-center mb-6">
@@ -30,12 +31,19 @@
         </div>
 
         <div class="m-2 flex justify-between">
-
-            <div class="button-wrapper flex-none flex items-center">
-                <a role="button" id="previous-btn" class="align-middle float-right bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center" href="/previousQuestion/{{$ref_id}}">
-                    Previous
-                </a>
-            </div>
+            @if($progression->progress >= 1)
+                <div class="button-wrapper flex-none flex items-center">
+                    <a role="button" id="previous-btn" class="align-middle float-right bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center justify-center" href="/previousQuestion/{{$ref_id}}">
+                        Previous
+                    </a>
+                </div>
+            @else
+                <div class="button-wrapper flex-none flex items-center">
+                    <button disabled role="button" id="previous-btn" class="align-middle bg-gray-600 float-right text-white font-bold py-2 px-4 rounded flex items-center justify-center" href="/previousQuestion/{{$ref_id}}">
+                        Previous
+                    </button>
+                </div>
+            @endif
 
             <div class="form-wrapper grow flex justify-center">
                 <div class="question-answer-wrapper w-1/2 justify-center">
@@ -55,11 +63,11 @@
                             @csrf
                             <input type="hidden" id="reflection_id" name="reflection_id" value="{{$ref_id}}" />
                             <input type="hidden" id="question_id" name="question_id" value="{{$question->id}}" />
-        
+
                             <div class="flex">
                                 {{-- <textarea type="text"  class="px-4 py-3 mb-8 bg-white text-black hover:bg-gray-200 rounded-lg"></textarea> --}}
                                 <textarea id="answer" name="answer" maxlength="3000" rows="4" class="block p-2.5 w-full h-20 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Wat zijn je gedachten?"></textarea>
-        
+
                                 <input type="submit" class="px-4 py-3 text-3xl font-extrabold tracking-tight bg-white text-black hover:bg-gray-200 rounded-lg" value=">">
                             </div>
                         </form>
