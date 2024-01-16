@@ -51,14 +51,17 @@ class ReflectionsController extends Controller
         //get reflection progression from progression id
         $prog = reflection_progression::where('reflection_id', '=', $refid)->first();
         $ref = Reflection::find($refid);
-        $question = question::where('ref_type', '=', $ref->reflection_type)->first();
+        $questions = question::where('ref_type', '=', $ref->reflection_type)->count();
         //Check if there is a previous question
-        if ($prog->progress - 1 >= $question->id) {
+        if ($prog->progress - 1 >= $questions) {
             //lower progression
             $prog->progress -= 1;
             $prog->save();
             return redirect('/reflectionTrajectory/' . $this->getReflectionTrajectoryByReflectionID($refid)->id . '/' . $ref->reflection_type);
         }
+        $prog->progress -= 1;
+        $prog->save();
+        return redirect('/reflectionTrajectory/' . $this->getReflectionTrajectoryByReflectionID($refid)->id . '/' . $ref->reflection_type);
 
     }
 
