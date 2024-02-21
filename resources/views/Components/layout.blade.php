@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html class="dark" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <!--Title neerzetten -->
     <title> {{$title ?? 'Psycho-logisch'}}</title>
@@ -8,7 +8,7 @@
         <link rel="stylesheet" href="/resources/css/layout-style.css">
     @endpush
 </head>
-<body class="dark:bg-gray-700 bg-gray-100">
+<body class="bg-gray-700">
 @include('Components.navbar')
 @yield('content')
 </body>

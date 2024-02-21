@@ -20,6 +20,6 @@ class ProfileSummaryCard extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.profile-summary-card');
+        return view('Components.profile-summary-card');
     }
 }
