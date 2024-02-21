@@ -89,6 +89,8 @@ npm run dev
 
 This guide is applicable for when wanting to use the program locally and not making use of Docker:
 
+If you have access to (Azure) OpenAI or simmilair services, check out [OpenAI Integration](#openai--integration)
+
 ### Prerequisites
 
 To make use of the Python application for AI related actions on application data, the following things are required:
@@ -284,3 +286,5 @@ When making a web call, add a new key under the 'Headers' section of your Postma
 ```markdown
 Key: X-CSRF-TOKEN | Value: lSjtNOpfyE8lSGrQQVyy3PbDYkUOhOSFlj14y4Mm
 ```
+
+# OpenAI  Integration

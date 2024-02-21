@@ -4,7 +4,7 @@
         @vite('resources/js/reflectionSummary.js')
     </head>
 
-    <div class="m-2 dark:text-white flex gap-3 relative">
+    <div class="m-2 text-white flex gap-3 relative">
         <!-- Left side: Reflection title and text -->
         <div class="w-3/4 p-6 bg-gray-900 rounded-lg shadow-lg relative">
             <h1 class="text-3xl font-bold mb-6">Samenvatting</h1>

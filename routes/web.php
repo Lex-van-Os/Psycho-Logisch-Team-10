@@ -5,6 +5,7 @@ use App\Http\Controllers\ClosedAnswerController;
 use App\Http\Controllers\HelperController;
 use App\Http\Controllers\InsightsController;
 use App\Http\Controllers\OpenAnswerController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\ReflectionsController;
 use App\Http\Controllers\ReflectionsTrajectoryController;
@@ -27,7 +28,10 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', function (Request $request){
+    $request.redirect('/');
+});
+
 Route::post('/home/shareSummary', [App\Http\Controllers\HomeController::class, 'shareSummary'])->name('home.shareSummary');
 
 // Question routes
@@ -67,9 +71,12 @@ Route::get('/retrieveAllReflectionTrajectories', [ReflectionsTrajectoryControlle
 
 // Routes for the Insights API (AI related actions)
 Route::post('insights/generateReflectionSummary', [InsightsController::class, 'generateReflectionSummary'])->name('insights.generateReflectionSummary');
+Route::post('insights/generateReflectionSummaryOpenAI', [InsightsController::class, 'generateReflectionSummaryOpenAI'])->name('insights.generateReflectionSummaryOpenAI');
+Route::get('/insights/getAnswersForArray/{id}', [InsightsController::class, 'insightsGetAnswersArray'])->name('insights.getAnswersForArray');
 
 Route::post('/answerMultipleChoice',[ReflectionsController::class, 'AnswerMultiQuestion']);
 Route::post('/answerOpenQuestion',[ReflectionsController::class, 'AnswerOpenQuestion']);
+
 
 Route::get('/previousQuestion/{refid}', [ReflectionsController::class, 'previousQuestion']);
 Route::get('/nextQuestion/{refid}', [ReflectionsController::class, 'nextQuestion']);
