@@ -29,7 +29,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', function (Request $request){
-    $request.redirect('/');
+    return redirect('/');
 });
 
 Route::post('/home/shareSummary', [App\Http\Controllers\HomeController::class, 'shareSummary'])->name('home.shareSummary');

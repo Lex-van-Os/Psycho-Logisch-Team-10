@@ -24,7 +24,7 @@ class ReflectionsTrajectoryController extends Controller
 
         $answerController = new AnswerController();
         $questions = $answerController->retrieveQuestionsWithAnswers($id, $userId);
-        
+
         $reflection_id = $id;
 
         return view('reflectionSummary', compact('questions', 'reflection_id'));
@@ -42,6 +42,10 @@ class ReflectionsTrajectoryController extends Controller
 
     public function store(Request $request)
     {
+        if(!\Auth::user())
+        {
+            return redirect('/login');
+        }
         $ref_trad = reflection_trajectory::create(['title' => $request->title, 'user_id' => \Auth::id()]);
         Reflection::create(['reflection_trajectory_id' => $ref_trad->id, 'reflection_type' => 'past']);
         Reflection::create(['reflection_trajectory_id' => $ref_trad->id, 'reflection_type' => 'present']);
@@ -52,7 +56,6 @@ class ReflectionsTrajectoryController extends Controller
     //Method to retrieve a reflection trajectory
     public function retrieveReflectionTrajectory($id)
     {
-
         return reflection_trajectory::where(['id' => $id])->get();
     }
 }
