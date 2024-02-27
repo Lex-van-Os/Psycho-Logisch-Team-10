@@ -6,11 +6,11 @@
         <h1 class="text-5xl text-white">Welkom bij Psycho-logisch!</h1>
         <p class="text-white">Op deze pagina zie je jouw reflecties. Deze reflecties staan hier om jouw te helpen met keuzestress. Wij willen ervoor zorgen dat je nadenkt over je verleden, heden en toekomst!</p>
 
-    <button onclick="window.location.href='/home'">
+    <!--<button onclick="window.location.href='/home'">
         <h1 class="focus:outline-none px-4 bg-gray-900 p-3 ml-3 rounded-lg text-white hover:bg-gray-800 text-primary-500  mb-8 text-4xl font-extrabold tracking-tight lg:text-4xlxl dark:text-white text-gray-900">
             Jouw Profiel
         </h1>
-    </button>
+    </button>-->
 
 @if(isset($ref_trajs))
 
@@ -20,13 +20,16 @@
         @endforeach
     @endif
     </div>
-    <button onclick="openModal()">
-        <h1
-            class="focus:outline-none px-4 bg-gray-900 p-3 ml-3 rounded-lg text-white hover:bg-gray-800 text-primary-500  mb-8 text-4xl font-extrabold tracking-tight lg:text-4xlxl dark:text-white text-gray-900"
-        >
-            +
-        </h1>
-    </button>
+    <div class="flex justify-center">
+        <button onclick="openModal()">
+            <h1
+                class="focus:outline-none px-4 bg-gray-900 p-3 ml-3 rounded-lg text-white hover:bg-gray-800 text-primary-500  mb-8 text-4xl font-extrabold tracking-tight lg:text-4xlxl dark:text-white text-gray-900"
+            >
+                +
+            </h1>
+        </button>
+    </div>
+
     <div class="main-modal fixed w-full h-100 inset-0 z-50 overflow-hidden flex justify-center items-center animated fadeIn faster"
          style="background: rgba(0,0,0,.7);">
         <div
